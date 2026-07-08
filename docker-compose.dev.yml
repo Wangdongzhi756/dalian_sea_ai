@@ -1,0 +1,53 @@
+name: dalian-sea-ai-dev
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dalian-sea-ai-mysql
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+      - --lower-case-table-names=1
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dalian_sea_ai
+      TZ: Asia/Shanghai
+    ports:
+      - "13306:3306"
+    volumes:
+      - dalian_sea_ai_mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./backend/sql:/sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: dalian-sea-ai-redis
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --save
+      - "60"
+      - "1"
+    ports:
+      - "16379:6379"
+    volumes:
+      - dalian_sea_ai_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dalian_sea_ai_mysql_data:
+  dalian_sea_ai_redis_data:

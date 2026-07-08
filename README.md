@@ -18,6 +18,16 @@
 - Web 管理端: Vue 3 / TypeScript / Vite / Element Plus。
 - 小程序/移动端: uni-app / Vue 3。
 
+## 本地 Docker 依赖
+
+已提供独立的 MySQL/Redis 开发环境:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d
+```
+
+后端使用 `druid,docker` profile 连接该环境。详细说明见 [Docker 开发环境](ai/docker-dev-env.md)。
+
 ## 项目文档
 
 - [项目计划](ai/project-plan.md)

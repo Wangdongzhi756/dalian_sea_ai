@@ -1,0 +1,17 @@
+# Docker 本地依赖环境配置。
+# 启动后端时使用: --spring.profiles.active=druid,docker
+spring:
+  datasource:
+    druid:
+      master:
+        url: jdbc:mysql://localhost:13306/dalian_sea_ai?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+        username: root
+        password: password
+      statViewServlet:
+        enabled: false
+  data:
+    redis:
+      host: localhost
+      port: 16379
+      database: 0
+      password:
