@@ -21,39 +21,6 @@
       "navigationBarTitleText": "工作台"
     }
   }, {
-    "path": "pages/business/application/index",
-    "style": {
-      "navigationBarTitleText": "业务申请",
-      "enablePullDownRefresh": true
-    }
-  }, {
-    "path": "pages/business/application/form",
-    "style": {
-      "navigationBarTitleText": "提交申请"
-    }
-  }, {
-    "path": "pages/business/application/detail",
-    "style": {
-      "navigationBarTitleText": "申请详情"
-    }
-  }, {
-    "path": "pages/ai/assistant/index",
-    "style": {
-      "navigationBarTitleText": "AI助手"
-    }
-  }, {
-    "path": "pages/captain/vessel/index",
-    "style": {
-      "navigationBarTitleText": "我的船舶",
-      "enablePullDownRefresh": true
-    }
-  }, {
-    "path": "pages/captain/content/index",
-    "style": {
-      "navigationBarTitleText": "公众号文案",
-      "enablePullDownRefresh": true
-    }
-  }, {
     "path": "pages/mine/index",
     "style": {
       "navigationBarTitleText": "我的"

@@ -17,18 +17,6 @@ export * from "./system/dict";
 export * from "./system/config";
 export * from "./system/notice";
 
-// business 模块
-export * from "./business/tenant";
-export * from "./business/vessel";
-export * from "./business/crew";
-export * from "./business/crewCertificate";
-export * from "./business/vesselLicense";
-export * from "./business/application";
-export * from "./business/content";
-
-// AI 模块
-export * from "./ai";
-
 // monitor 模块
 export * from "./monitor/cache";
 export * from "./monitor/logininfor";

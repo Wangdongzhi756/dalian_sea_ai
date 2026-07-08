@@ -12,13 +12,61 @@
     </uni-swiper-dot>
 
     <!-- 宫格组件 -->
-    <uni-section title="业务办理" type="line"></uni-section>
+    <uni-section title="系统管理" type="line"></uni-section>
     <view class="grid-body">
       <uni-grid :column="4" :showBorder="false" @change="changeGrid">
-        <uni-grid-item v-for="item in modules" :key="item.text">
+        <uni-grid-item>
           <view class="grid-item-box">
-            <uni-icons :type="item.icon" size="30"></uni-icons>
-            <text class="text">{{ item.text }}</text>
+            <uni-icons type="person-filled" size="30"></uni-icons>
+            <text class="text">用户管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="staff-filled" size="30"></uni-icons>
+            <text class="text">角色管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="color" size="30"></uni-icons>
+            <text class="text">菜单管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="settings-filled" size="30"></uni-icons>
+            <text class="text">部门管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="heart-filled" size="30"></uni-icons>
+            <text class="text">岗位管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="bars" size="30"></uni-icons>
+            <text class="text">字典管理</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="gear-filled" size="30"></uni-icons>
+            <text class="text">参数设置</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="chat-filled" size="30"></uni-icons>
+            <text class="text">通知公告</text>
+          </view>
+        </uni-grid-item>
+        <uni-grid-item>
+          <view class="grid-item-box">
+            <uni-icons type="wallet-filled" size="30"></uni-icons>
+            <text class="text">日志管理</text>
           </view>
         </uni-grid-item>
       </uni-grid>
@@ -33,19 +81,9 @@
   const current = ref(0)
   const swiperDotIndex = ref(0)
   const data = ref([{ image: '/static/images/banner/banner01.jpg' }, { image: '/static/images/banner/banner02.jpg' }, { image: '/static/images/banner/banner03.jpg' }])
-  const modules = ref([
-    { text: '提交申请', icon: 'compose', url: '/pages/business/application/form' },
-    { text: '我的申请', icon: 'list', url: '/pages/business/application/index' },
-    { text: '进度通知', icon: 'chat-filled', url: '/pages/business/application/index' },
-    { text: '证照办理', icon: 'paperclip', url: '/pages/business/application/form' },
-    { text: '维修报备', icon: 'settings-filled', url: '/pages/business/application/form' },
-    { text: 'AI助手', icon: 'chat', url: '/pages/ai/assistant/index' },
-    { text: '我的船舶', icon: 'map', url: '/pages/captain/vessel/index' },
-    { text: '公众号文案', icon: 'paperplane', url: '/pages/captain/content/index' }
-  ])
 
   function clickBannerItem(item) {
-    uni.navigateTo({ url: '/pages/business/application/index' })
+    console.info(item)
   }
 
   function changeSwiper(e) {
@@ -53,12 +91,7 @@
   }
 
   function changeGrid(e) {
-    const item = modules.value[e.detail.index]
-    if (!item || !item.url) {
-      proxy.$modal.showToast('模块建设中~')
-      return
-    }
-    uni.navigateTo({ url: item.url })
+    proxy.$modal.showToast('模块建设中~')
   }
 </script>
 
