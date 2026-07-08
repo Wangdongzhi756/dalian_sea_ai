@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大连海上旅游AI获客系统 - 完整方案</title>
+  <style>
+    :root{--navy:#082a42;--blue:#0b69a3;--cyan:#00a6c8;--teal:#18b3a9;--bg:#f3f9fc;--card:#ffffff;--line:#d7e7ee;--muted:#61798c;--text:#14334a;--warn:#f59e0b;--danger:#e05252;--ok:#16a085;}
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;}
+    .layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}.toc{position:sticky;top:0;height:100vh;padding:28px 22px;background:linear-gradient(180deg,#08304c,#0a527d);color:white;overflow:auto}.toc h1{font-size:20px;line-height:1.35;margin:0 0 18px}.toc p{color:#cdeaf5;margin:0 0 18px;font-size:13px}.toc a{display:block;color:#dff7ff;text-decoration:none;padding:9px 10px;border-radius:10px;font-size:14px}.toc a:hover{background:rgba(255,255,255,.12)}.content{padding:42px 5vw 80px;max-width:1280px}.hero{background:linear-gradient(135deg,#ffffff,#e9f7fb);border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:0 24px 70px rgba(8,42,66,.08);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-80px;top:-100px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(0,166,200,.25),rgba(0,166,200,0) 70%)}.hero h2{position:relative;font-size:36px;line-height:1.18;margin:0 0 14px;color:var(--navy)}.hero p{position:relative;color:var(--muted);font-size:17px;max-width:850px;margin:0}.badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#e7f7fb;color:var(--blue);font-weight:800;font-size:12px;margin-bottom:14px}.section{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 14px 40px rgba(8,42,66,.05)}h3{font-size:24px;margin:0 0 18px;color:var(--navy)}h4{font-size:18px;margin:24px 0 10px;color:#0c4c74}.grid{display:grid;gap:16px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{border:1px solid var(--line);background:#fbfdfe;border-radius:18px;padding:18px}.card h4{margin:0 0 8px}.muted{color:var(--muted)}.pill{display:inline-flex;padding:4px 9px;border-radius:999px;background:#edf8fc;color:var(--blue);font-size:12px;font-weight:800;margin:3px}.warning{border-left:5px solid var(--warn);background:#fff8e8}.ok{border-left:5px solid var(--ok);background:#effaf7}.danger{border-left:5px solid var(--danger);background:#fff1f1}.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.node{padding:13px 15px;border-radius:14px;background:#eef8fc;border:1px solid #cfe8f1;font-weight:800;color:#0b5f91}.arrow{font-weight:900;color:#80a9ba}.table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:16px}.table th,.table td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#edf7fb;color:#0b5f91}.table tr:last-child td{border-bottom:0}.code{background:#07283d;color:#d9f7ff;border-radius:18px;padding:18px;overflow:auto;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.65}.step{display:grid;grid-template-columns:46px 1fr;gap:14px;align-items:flex-start;margin:14px 0}.num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-weight:900}.mini-title{font-weight:900;color:#0b4f79}.linkbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:11px 14px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-weight:900}.btn.alt{background:#fff;color:var(--blue);border:1px solid var(--line)}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}.toc{position:relative;height:auto}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.content{padding:24px}.hero h2{font-size:30px}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="toc">
+      <h1>大连海上旅游AI获客系统</h1>
+      <p>完整方案：商业闭环、产品模块、技术架构、MVP路线、HTML原型说明。</p>
+      <a href="#judge">1. 合理性判断</a>
+      <a href="#position">2. 产品定位</a>
+      <a href="#loop">3. 业务闭环</a>
+      <a href="#roles">4. 角色与权限</a>
+      <a href="#modules">5. 功能模块</a>
+      <a href="#channel">6. 渠道与投放边界</a>
+      <a href="#architecture">7. 技术架构</a>
+      <a href="#data">8. 核心数据表</a>
+      <a href="#mvp">9. MVP路线</a>
+      <a href="#pricing">10. 收费与成本</a>
+      <a href="#risk">11. 风险控制</a>
+    </aside>
+    <main class="content">
+      <section class="hero">
+        <span class="badge">Vertical SaaS + AI Agent</span>
+        <h2>先做船东AI获客工具，再演进成海上旅游经营SaaS</h2>
+        <p>第一版的目标不是做一个完整租船平台，而是帮助船长自动生成内容、管理推送、记录投放预算、承接咨询、管理船只档期。这样前期成本低、人工少、验证快，后续再自然扩展到统一下单平台。</p>
+        <div class="linkbar">
+          <a class="btn" href="admin-dashboard.html">管理端原型</a>
+          <a class="btn alt" href="shipowner-miniapp.html">船东小程序原型</a>
+        </div>
+      </section>
+
+      <section class="section" id="judge">
+        <h3>1. 合理性判断</h3>
+        <div class="grid grid-2">
+          <div class="card ok">
+            <h4>这个方向是合理的</h4>
+            <p>它比一开始做租船交易平台更轻。你卖的是“获客和经营效率”，不是直接承担所有订单、退款、投诉和船东履约责任。对一个人创业更友好。</p>
+            <span class="pill">低启动成本</span><span class="pill">低固定成本</span><span class="pill">更快验证</span>
+          </div>
+          <div class="card warning">
+            <h4>但不能只做AI写文案</h4>
+            <p>纯AI文案工具竞争大、价格容易被打下来。系统必须围绕“船长每天怎么经营”设计，把AI文案、推送、客户线索、船只、档期、报价、复购串起来。</p>
+            <span class="pill">行业工作流</span><span class="pill">真实经营数据</span><span class="pill">留存壁垒</span>
+          </div>
+        </div>
+        <h4>一句话定位</h4>
+        <div class="code">不是：AI营销工具
+而是：面向大连租船/海钓/海上观光船东的 AI获客与经营管理系统</div>
+      </section>
+
+      <section class="section" id="position">
+        <h3>2. 产品定位</h3>
+        <table class="table">
+          <thead><tr><th>对象</th><th>核心痛点</th><th>系统解决方式</th><th>首版价值</th></tr></thead>
+          <tbody>
+            <tr><td>船长/船东</td><td>不会发内容、没时间做抖音/公众号、客户来源不稳定</td><td>AI每日生成内容包，自动提醒发布，记录渠道效果</td><td>每天有内容、有话术、有投放建议</td></tr>
+            <tr><td>小型旅行社/海钓团队</td><td>客户管理混乱，档期靠微信记，报价不统一</td><td>客户线索、船只档期、预约时间、报价模板统一管理</td><td>少漏单、少撞档、提高转化</td></tr>
+            <tr><td>你/平台方</td><td>需要低成本验证付费用户，不能一上来投入大量运营</td><td>订阅制SaaS，广告费客户自付，管理端看留存、收入、AI成本</td><td>1-2个付费客户即可覆盖基础运行成本</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="loop">
+        <h3>3. 业务闭环</h3>
+        <div class="flow">
+          <span class="node">船东入驻</span><span class="arrow">→</span>
+          <span class="node">录入船只/价格/玩法</span><span class="arrow">→</span>
+          <span class="node">AI生成每日内容</span><span class="arrow">→</span>
+          <span class="node">船东审核/发布</span><span class="arrow">→</span>
+          <span class="node">渠道引流咨询</span><span class="arrow">→</span>
+          <span class="node">AI客服/报价</span><span class="arrow">→</span>
+          <span class="node">预约档期</span><span class="arrow">→</span>
+          <span class="node">成交/复购</span><span class="arrow">→</span>
+          <span class="node">数据反馈给AI</span>
+        </div>
+        <div class="grid grid-3" style="margin-top:18px">
+          <div class="card"><h4>内容闭环</h4><p>根据天气、节假日、船只空闲、历史咨询生成不同渠道文案，例如抖音短视频脚本、美团团购文案、朋友圈、公众号文章。</p></div>
+          <div class="card"><h4>经营闭环</h4><p>每条船的可约时间、维护时间、已订时间统一管理，AI生成内容时优先推空闲船和高毛利产品。</p></div>
+          <div class="card"><h4>数据闭环</h4><p>记录每条内容的曝光、咨询、预约、成交和退款，下一轮AI策略不靠猜，而是靠本地真实数据。</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="roles">
+        <h3>4. 角色与权限</h3>
+        <div class="grid grid-3">
+          <div class="card"><h4>平台管理员：你</h4><p>管理租户、套餐、AI模型、内容模板、渠道配置、收入、成本、用户活跃和异常。</p></div>
+          <div class="card"><h4>船东管理员</h4><p>管理自己的船、档期、AI内容、渠道授权、投放预算、客户线索和预约订单。</p></div>
+          <div class="card"><h4>船员/客服账号</h4><p>只看分配给自己的船只和预约，不可修改套餐、渠道授权、财务和系统设置。</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="modules">
+        <h3>5. 功能模块</h3>
+        <h4>船东小程序功能</h4>
+        <table class="table">
+          <thead><tr><th>模块</th><th>核心页面</th><th>第一版功能</th><th>后续增强</th></tr></thead>
+          <tbody>
+            <tr><td>首页</td><td>今日经营看板</td><td>今日AI建议、待发布内容、空闲船提醒、咨询数量</td><td>天气/海况接入、异常提醒</td></tr>
+            <tr><td>AI文案</td><td>内容卡片列表</td><td>一键生成、复制、收藏、加入推送计划</td><td>图片/视频素材、爆款模板、A/B测试</td></tr>
+            <tr><td>推送管理</td><td>平台日历</td><td>公众号、视频号、抖音、美团、小红书的发布计划与状态</td><td>开放平台授权、自动发布、失败重试</td></tr>
+            <tr><td>渠道/投放</td><td>平台预算面板</td><td>记录美团/抖音等平台预算，AI给投放建议，跳转充值/后台</td><td>深度API、消耗回传、ROI归因</td></tr>
+            <tr><td>船只管理</td><td>船只列表/编辑</td><td>名称、载客、价格、玩法、状态、维护时间</td><td>图片库、证照、保险、船员排班</td></tr>
+            <tr><td>档期订单</td><td>时间轴/日历</td><td>已预约、空闲、维护、锁定时间管理</td><td>游客端下单、在线支付、退款改期</td></tr>
+          </tbody>
+        </table>
+        <h4>平台管理端功能</h4>
+        <div class="grid grid-4">
+          <div class="card"><h4>经营总览</h4><p>MRR、客户数、AI成本、毛利、活跃度。</p></div>
+          <div class="card"><h4>用户管理</h4><p>租户、套餐、船只数量、续费状态、风险。</p></div>
+          <div class="card"><h4>AI运营管理</h4><p>提示词模板、生成队列、敏感词审核、失败任务。</p></div>
+          <div class="card"><h4>渠道管理</h4><p>平台授权、API状态、素材同步、发布日志。</p></div>
+          <div class="card"><h4>数据分析</h4><p>渠道ROI、内容转化、客户留存、船只利用率。</p></div>
+          <div class="card"><h4>订阅财务</h4><p>套餐、账单、续费、发票、欠费停用。</p></div>
+          <div class="card"><h4>客服风控</h4><p>投诉、退款、敏感内容、异常发布频率。</p></div>
+          <div class="card"><h4>系统配置</h4><p>模型路由、token额度、对象存储、消息通知。</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="channel">
+        <h3>6. 渠道与投放边界</h3>
+        <div class="card warning">
+          <h4>关键原则：订阅费和广告费必须分开</h4>
+          <p>系统收“软件订阅费/AI服务费”。美团、抖音、小红书等渠道的广告预算由客户自己承担。第一版只做预算建议、充值记录、外部跳转和效果统计，不把广告费包含在你的订阅费里。</p>
+        </div>
+        <table class="table" style="margin-top:16px">
+          <thead><tr><th>平台</th><th>第一版做法</th><th>自动化等级</th><th>原因</th></tr></thead>
+          <tbody>
+            <tr><td>公众号/视频号</td><td>生成文章、朋友圈、短视频脚本；支持复制、素材包、发布提醒</td><td>中</td><td>微信生态适合沉淀私域，但消息推送和群发有规则限制。</td></tr>
+            <tr><td>抖音</td><td>生成脚本、标题、话题、封面建议；可申请开放平台发布能力后接入</td><td>中-高</td><td>内容发布能力通常需要申请、授权和审核，不应默认承诺。</td></tr>
+            <tr><td>美团/大众点评</td><td>生成团购标题、门店介绍、活动文案、预算建议；投放预算客户自付</td><td>低-中</td><td>本地生活商业化和商家能力通常受平台账户、类目和服务商权限影响。</td></tr>
+            <tr><td>小红书</td><td>生成笔记、封面、话题；第一版以复制/素材包/提醒为主</td><td>低-中</td><td>内容自动发布能力需要根据官方开放范围确认。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="architecture">
+        <h3>7. 技术架构</h3>
+        <div class="grid grid-2">
+          <div class="card">
+            <h4>推荐技术栈</h4>
+            <p><b>管理端：</b>Vue3 + Element Plus<br><b>小程序：</b>uni-app / 微信小程序原生<br><b>后端：</b>Spring Boot 3 + MyBatis Plus<br><b>数据库：</b>MySQL 或 PostgreSQL<br><b>缓存：</b>Redis，第一版可不用<br><b>定时任务：</b>Spring Scheduler / Quartz<br><b>AI接入：</b>统一AI Gateway，国产模型优先，按任务路由</p>
+          </div>
+          <div class="card">
+            <h4>服务拆分</h4>
+            <p>第一版不建议微服务。用模块化单体即可：租户模块、船只模块、档期模块、AI内容模块、渠道模块、线索模块、订阅账单模块、数据分析模块。</p>
+          </div>
+        </div>
+        <div class="code" style="margin-top:16px">前端管理端 /admin
+小程序端 /miniapp
+        │
+        ▼
+Spring Boot API
+        ├─ TenantService 租户/套餐
+        ├─ VesselService 船只/档期
+        ├─ ContentService AI内容/素材
+        ├─ ChannelService 渠道授权/发布日志
+        ├─ LeadService 线索/客户
+        ├─ BookingService 预约/空闲时间
+        ├─ BillingService 订阅/账单
+        └─ AiGateway 模型路由/用量统计
+        │
+        ▼
+MySQL/PostgreSQL + Object Storage + Redis(可选)</div>
+      </section>
+
+      <section class="section" id="data">
+        <h3>8. 核心数据表</h3>
+        <table class="table">
+          <thead><tr><th>表名</th><th>用途</th><th>关键字段</th></tr></thead>
+          <tbody>
+            <tr><td>tenant</td><td>船东/客户主体</td><td>name, contact, plan_id, status, expire_at</td></tr>
+            <tr><td>tenant_user</td><td>客户账号</td><td>tenant_id, role, mobile, openid, status</td></tr>
+            <tr><td>vessel</td><td>船只资产</td><td>tenant_id, name, capacity, base_price, service_tags, status</td></tr>
+            <tr><td>vessel_schedule</td><td>船只档期</td><td>vessel_id, start_time, end_time, type, booking_id</td></tr>
+            <tr><td>booking</td><td>预约订单/线下成交记录</td><td>tenant_id, vessel_id, customer_name, amount, status, source_channel</td></tr>
+            <tr><td>lead</td><td>客户线索</td><td>tenant_id, channel, name, phone, intent, stage, follow_at</td></tr>
+            <tr><td>content_asset</td><td>AI生成内容</td><td>tenant_id, channel, title, body, status, ai_score, publish_at</td></tr>
+            <tr><td>publish_task</td><td>推送任务</td><td>asset_id, channel_account_id, planned_at, status, fail_reason</td></tr>
+            <tr><td>channel_account</td><td>渠道账号授权</td><td>tenant_id, platform, auth_status, token_expire_at</td></tr>
+            <tr><td>ad_budget_record</td><td>客户自付广告预算记录</td><td>tenant_id, platform, amount, proof_image, period, note</td></tr>
+            <tr><td>metric_daily</td><td>每日经营指标</td><td>tenant_id, date, views, leads, bookings, revenue, ai_cost</td></tr>
+            <tr><td>ai_usage_log</td><td>AI用量与成本</td><td>tenant_id, model, tokens_in, tokens_out, cost, scene</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="mvp">
+        <h3>9. MVP路线</h3>
+        <div class="step"><div class="num">1</div><div><div class="mini-title">第1阶段：10天内做可演示版本</div><p>管理端客户管理、船东小程序首页、AI文案生成、船只管理、档期展示。发布功能先做复制和计划，不做深度平台接口。</p></div></div>
+        <div class="step"><div class="num">2</div><div><div class="mini-title">第2阶段：30天内找真实客户试用</div><p>支持套餐、AI用量限制、内容模板、预算记录、渠道效果录入。找5-10个船东试用，重点验证是否愿意每月付费。</p></div></div>
+        <div class="step"><div class="num">3</div><div><div class="mini-title">第3阶段：60天内形成付费闭环</div><p>加客户线索、AI客服话术、报价模板、订阅账单、续费提醒、管理端运营评分。开始形成真实的客户经营数据。</p></div></div>
+        <div class="step"><div class="num">4</div><div><div class="mini-title">第4阶段：后续平台化</div><p>当船东数量达到几十个，再开放游客端统一入口、小程序下单、平台订单分发、在线支付和服务评价。</p></div></div>
+      </section>
+
+      <section class="section" id="pricing">
+        <h3>10. 收费与成本</h3>
+        <div class="grid grid-3">
+          <div class="card"><h4>基础版 299-399/月</h4><p>AI文案、朋友圈、公众号文案、基础船只档期、复制发布。</p></div>
+          <div class="card"><h4>专业版 599-699/月</h4><p>多平台内容包、推送计划、客户线索、AI报价话术、预算记录。</p></div>
+          <div class="card"><h4>旗舰版 999+/月</h4><p>短视频脚本、数据分析、CRM、老客户营销、更多AI额度。</p></div>
+        </div>
+        <div class="card warning" style="margin-top:16px"><h4>广告费单独计算</h4><p>美团、抖音、小红书等广告充值不包含在订阅费中。系统只做建议和记录，客户自己充值或授权服务商账户。</p></div>
+      </section>
+
+      <section class="section" id="risk">
+        <h3>11. 风险控制</h3>
+        <div class="grid grid-2">
+          <div class="card danger"><h4>不要承诺效果</h4><p>不要写“保证带来多少客户”。合同里应写清楚提供软件、AI生成、运营建议和数据工具，不保证平台曝光和最终成交。</p></div>
+          <div class="card warning"><h4>不要违规自动化</h4><p>对外部平台，先走官方授权、复制发布、跳转发布、素材包下载。不要用爬虫、模拟登录、批量刷量等方式。</p></div>
+          <div class="card warning"><h4>一人公司要控制售后</h4><p>客户越多，越要标准化：FAQ、教程、自动引导、套餐额度、服务边界，避免变成低价人工代运营。</p></div>
+          <div class="card ok"><h4>数据才是长期壁垒</h4><p>记录什么天气、什么内容、什么平台、什么价格能成交。半年后你的优势不是AI文案，而是本地海上旅游经营数据。</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>大连海上旅游AI获客系统 - 原型入口</title>
+  <style>
+    :root{--blue:#0b5f91;--cyan:#00a7c8;--navy:#092b44;--bg:#eef7fb;--card:#fff;--text:#123047;--muted:#6b8192;--line:#d9e8ef;}
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;background:linear-gradient(135deg,#edf8fc,#f7fbfd 45%,#e4f4f9);color:var(--text);}
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:56px 24px;position:relative;overflow:hidden;}
+    .hero:before{content:"";position:absolute;width:680px;height:680px;border-radius:50%;background:radial-gradient(circle,rgba(0,167,200,.22),rgba(0,167,200,0) 65%);top:-260px;right:-160px;}
+    .hero:after{content:"";position:absolute;width:720px;height:360px;background:linear-gradient(120deg,rgba(11,95,145,.16),rgba(0,167,200,.07));border-radius:50%;bottom:-180px;left:-120px;filter:blur(1px)}
+    .wrap{position:relative;z-index:1;max-width:1100px;width:100%;}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.72);color:var(--blue);font-weight:700;font-size:13px;}
+    h1{font-size:44px;line-height:1.15;margin:22px 0 14px;color:var(--navy);letter-spacing:-.5px}.sub{font-size:18px;color:var(--muted);max-width:720px;line-height:1.8;margin-bottom:32px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 24px 60px rgba(9,43,68,.08);backdrop-filter:blur(8px)}
+    .card h2{font-size:20px;margin:0 0 12px}.card p{color:var(--muted);line-height:1.7;margin:0 0 20px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;text-decoration:none;font-weight:800;color:white;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 12px 24px rgba(11,95,145,.18)}.btn.secondary{background:#fff;color:var(--blue);border:1px solid var(--line);box-shadow:none}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.tag{padding:6px 10px;border-radius:999px;background:#edf8fc;color:#177195;font-size:12px;font-weight:700}.note{margin-top:24px;padding:18px 20px;border-radius:18px;background:#fff;border:1px dashed #b7d5df;color:#527184;line-height:1.7}
+    @media(max-width:860px){.grid{grid-template-columns:1fr}h1{font-size:34px}.hero{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <section class="wrap">
+      <div class="badge">大连海上旅游 · AI获客SaaS原型</div>
+      <h1>船东AI获客 + 船只档期管理 + 平台管理后台</h1>
+      <p class="sub">这套原型按“先卖给船长的AI营销工具，再逐步演进成行业SaaS和平台订单系统”的路径设计。第一版重点是低成本验证付费意愿，避免一上来陷入复杂订单、支付、售后。</p>
+      <div class="grid">
+        <article class="card">
+          <h2>方案说明</h2>
+          <p>包含商业合理性、业务闭环、角色权限、模块拆分、技术架构、数据表和MVP迭代路线。</p>
+          <a class="btn" href="system-design.html">查看完整方案</a>
+          <div class="meta"><span class="tag">文字方案</span><span class="tag">架构闭环</span></div>
+        </article>
+        <article class="card">
+          <h2>平台管理端</h2>
+          <p>给你使用的后台：看客户、收入、AI成本、投放效果、用户活跃、船只数量、异常和续费风险。</p>
+          <a class="btn" href="admin-dashboard.html">打开管理端HTML</a>
+          <div class="meta"><span class="tag">Web管理后台</span><span class="tag">数据分析</span></div>
+        </article>
+        <article class="card">
+          <h2>船东小程序</h2>
+          <p>给船长/船东使用：查看AI文案、推送管理、平台预算、船只管理、预定时间和空闲时间。</p>
+          <a class="btn" href="shipowner-miniapp.html">打开小程序HTML</a>
+          <div class="meta"><span class="tag">移动端原型</span><span class="tag">B端用户</span></div>
+        </article>
+      </div>
+      <div class="note">建议第一版不要承诺所有渠道都能自动发布或自动充值。系统先做“生成、审核、复制、素材包、提醒、预算记录、外部跳转、效果归因”，等平台接口和服务商资质明确后再做深度自动化。</div>
+    </section>
+  </main>
+</body>
+</html>

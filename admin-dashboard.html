@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>平台管理端 - 大连海上旅游AI获客系统</title>
+  <style>
+    :root{
+      --navy:#082a42;--deep:#063657;--blue:#0b6ea8;--cyan:#08a7c7;--green:#20b486;--yellow:#f5a623;--red:#e05252;--bg:#f2f8fb;--card:#fff;--line:#d9e7ef;--text:#14334a;--muted:#6f8394;
+      --shadow:0 18px 55px rgba(8,42,66,.08);
+    }
+    *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .app{display:grid;grid-template-columns:250px 1fr;height:100vh;overflow:hidden}.side{background:linear-gradient(180deg,#062940,#0a527c 64%,#0c7891);color:white;padding:22px 18px;display:flex;flex-direction:column;gap:18px}.brand{padding:8px 10px}.brand-title{font-size:19px;font-weight:900;letter-spacing:.3px}.brand-sub{font-size:12px;color:#bfe8f3;margin-top:4px}.nav{display:flex;flex-direction:column;gap:6px}.nav button{all:unset;display:flex;gap:10px;align-items:center;padding:12px 12px;border-radius:14px;color:#dff7ff;cursor:pointer;font-weight:700;font-size:14px}.nav button:hover,.nav button.active{background:rgba(255,255,255,.14);color:#fff}.nav .dot{width:8px;height:8px;border-radius:50%;background:#6ddce7}.side-card{margin-top:auto;padding:16px;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16)}.side-card b{font-size:24px}.side-card p{margin:4px 0 0;color:#caedf5;font-size:12px;line-height:1.6}.main{overflow:auto}.topbar{position:sticky;top:0;z-index:10;height:76px;background:rgba(242,248,251,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px}.title h1{font-size:22px;margin:0;color:var(--navy)}.title p{font-size:12px;color:var(--muted);margin:3px 0 0}.actions{display:flex;align-items:center;gap:10px}.search{height:42px;width:280px;border:1px solid var(--line);border-radius:14px;background:white;padding:0 14px;color:var(--text);outline:none}.btn{height:42px;border:0;border-radius:14px;padding:0 14px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-weight:900;cursor:pointer}.btn.ghost{background:white;color:var(--blue);border:1px solid var(--line)}.page{display:none;padding:26px 32px 56px}.page.active{display:block}.grid{display:grid;gap:16px}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:20px}.stat{position:relative;overflow:hidden}.stat:after{content:"";position:absolute;right:-38px;top:-48px;width:120px;height:120px;border-radius:50%;background:rgba(8,167,199,.12)}.stat .label{color:var(--muted);font-size:13px;font-weight:800}.stat .num{font-size:30px;font-weight:950;margin:7px 0 4px;color:var(--navy)}.stat .trend{font-size:12px;color:var(--green);font-weight:800}.stat.warn .trend{color:var(--yellow)}.stat.danger .trend{color:var(--red)}.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px}.section-title h2{font-size:18px;margin:0;color:var(--navy)}.section-title span{color:var(--muted);font-size:12px}.chart{height:210px;display:flex;gap:14px;align-items:flex-end;padding:18px 4px 2px}.bar{flex:1;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,#08a7c7,#0b6ea8);position:relative;min-width:28px}.bar:after{content:attr(data-label);position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted)}.bar:before{content:attr(data-value);position:absolute;top:-23px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--navy);font-weight:900}.funnel{display:grid;grid-template-columns:1.4fr 1.1fr .9fr .72fr .56fr;gap:10px;align-items:end;min-height:210px;padding:20px 0}.funnel div{border-radius:18px;background:linear-gradient(135deg,#eaf8fc,#fff);border:1px solid var(--line);padding:16px;text-align:center}.funnel b{display:block;font-size:23px;color:var(--blue)}.funnel span{font-size:12px;color:var(--muted);font-weight:800}.table{width:100%;border-collapse:separate;border-spacing:0}.table th,.table td{padding:14px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}.table th{font-size:12px;color:var(--muted);text-transform:uppercase}.table tr:last-child td{border-bottom:0}.user{display:flex;align-items:center;gap:10px}.avatar{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#0b6ea8,#08a7c7);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}.tag{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#edf8fc;color:var(--blue);font-size:12px;font-weight:900}.tag.green{background:#eafaf4;color:#13966e}.tag.yellow{background:#fff6df;color:#b77900}.tag.red{background:#fff0f0;color:#d23b3b}.progress{height:10px;border-radius:999px;background:#edf3f6;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,#0b6ea8,#08a7c7);border-radius:999px}.task{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0}.task-icon{width:38px;height:38px;border-radius:14px;background:#edf8fc;color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:900}.task b{display:block;color:var(--navy)}.task small{color:var(--muted)}.score{display:grid;grid-template-columns:80px 1fr;gap:18px;align-items:center}.ring{width:78px;height:78px;border-radius:50%;background:conic-gradient(var(--cyan) 0 78%,#e6f0f4 78% 100%);display:flex;align-items:center;justify-content:center}.ring span{width:58px;height:58px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-weight:950;color:var(--blue)}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:18px;background:#fbfdfe}.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.lane{background:#f7fbfd;border:1px solid var(--line);border-radius:18px;padding:14px}.lane h3{font-size:14px;margin:0 0 12px;color:var(--navy)}.mini-card{background:white;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 8px 20px rgba(8,42,66,.04)}.mini-card b{display:block;font-size:13px}.mini-card span{font-size:12px;color:var(--muted)}.toggle{display:flex;gap:6px;background:#eaf3f7;border-radius:14px;padding:4px}.toggle button{border:0;background:transparent;padding:8px 12px;border-radius:11px;color:var(--muted);font-weight:900;cursor:pointer}.toggle button.active{background:white;color:var(--blue);box-shadow:0 4px 14px rgba(8,42,66,.08)}
+    @media(max-width:1100px){.app{grid-template-columns:1fr}.side{display:none}.grid-4,.grid-3,.grid-2,.kanban{grid-template-columns:1fr}.topbar{padding:0 18px}.search{width:160px}.page{padding:20px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">
+        <div class="brand-title">海旅智营 Admin</div>
+        <div class="brand-sub">AI获客与船东经营SaaS</div>
+      </div>
+      <nav class="nav" id="nav">
+        <button class="active" data-page="overview"><span class="dot"></span>经营总览</button>
+        <button data-page="users"><span class="dot"></span>用户/船东管理</button>
+        <button data-page="ai"><span class="dot"></span>AI内容运营</button>
+        <button data-page="channels"><span class="dot"></span>渠道与投放</button>
+        <button data-page="boats"><span class="dot"></span>船只与档期</button>
+        <button data-page="finance"><span class="dot"></span>订阅与成本</button>
+        <button data-page="risk"><span class="dot"></span>客服与风控</button>
+      </nav>
+      <div class="side-card">
+        <b>¥ 12,860</b>
+        <p>本月预计订阅收入<br>AI成本占比 6.8%，毛利安全。</p>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="title"><h1 id="pageTitle">经营总览</h1><p>今天重点：提升试用转付费、控制AI生成成本、跟进3个续费风险客户。</p></div>
+        <div class="actions"><input class="search" placeholder="搜索船东/手机号/船名"/><button class="btn ghost">导出</button><button class="btn">新增客户</button></div>
+      </header>
+
+      <section class="page active" id="overview">
+        <div class="grid grid-4">
+          <div class="card stat"><div class="label">付费船东</div><div class="num">26</div><div class="trend">+6 本月新增</div></div>
+          <div class="card stat"><div class="label">管理船只</div><div class="num">84</div><div class="trend">平均每户 3.2 条</div></div>
+          <div class="card stat warn"><div class="label">AI生成内容</div><div class="num">1,428</div><div class="trend">成本 ¥873</div></div>
+          <div class="card stat"><div class="label">线索转预约</div><div class="num">18.7%</div><div class="trend">较上周 +2.4%</div></div>
+        </div>
+        <div class="section-title"><h2>渠道咨询与成交趋势</h2><span>近7日</span></div>
+        <div class="grid grid-2">
+          <div class="card"><div class="chart"><div class="bar" style="height:42%" data-label="周一" data-value="43"></div><div class="bar" style="height:56%" data-label="周二" data-value="58"></div><div class="bar" style="height:48%" data-label="周三" data-value="50"></div><div class="bar" style="height:72%" data-label="周四" data-value="74"></div><div class="bar" style="height:84%" data-label="周五" data-value="86"></div><div class="bar" style="height:92%" data-label="周六" data-value="94"></div><div class="bar" style="height:68%" data-label="周日" data-value="70"></div></div></div>
+          <div class="card"><div class="funnel"><div><b>12.6万</b><span>曝光</span></div><div><b>2,314</b><span>点击</span></div><div><b>486</b><span>咨询</span></div><div><b>91</b><span>预约</span></div><div><b>54</b><span>成交</span></div></div></div>
+        </div>
+        <div class="section-title"><h2>运营健康度</h2><span>按客户活跃、内容发布、线索转化综合评分</span></div>
+        <div class="grid grid-3">
+          <div class="card score"><div class="ring"><span>78</span></div><div><b>整体健康度</b><p class="muted">可运营状态良好，主要问题是部分船东只生成不发布。</p></div></div>
+          <div class="card"><b>续费风险</b><p class="muted">3个客户近7天未发布内容，需要运营跟进。</p><div class="progress"><span style="width:32%"></span></div></div>
+          <div class="card"><b>推荐动作</b><p class="muted">给“星海海钓老刘”等客户开启周末套餐模板，提高转化。</p><button class="btn ghost">生成运营建议</button></div>
+        </div>
+      </section>
+
+      <section class="page" id="users">
+        <div class="grid grid-4">
+          <div class="card stat"><div class="label">全部租户</div><div class="num">39</div><div class="trend">26付费 / 13试用</div></div>
+          <div class="card stat"><div class="label">即将到期</div><div class="num">7</div><div class="trend">7天内</div></div>
+          <div class="card stat danger"><div class="label">低活跃</div><div class="num">5</div><div class="trend">需跟进</div></div>
+          <div class="card stat"><div class="label">平均客单价</div><div class="num">¥495</div><div class="trend">+9.8%</div></div>
+        </div>
+        <div class="section-title"><h2>船东客户列表</h2><span>按续费风险排序</span></div>
+        <div class="card">
+          <table class="table">
+            <thead><tr><th>客户</th><th>套餐</th><th>船只</th><th>内容发布</th><th>线索</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><div class="user"><div class="avatar">刘</div><div><b>星海海钓老刘</b><br><span class="muted">大连星海湾</span></div></div></td><td>专业版 ¥699/月</td><td>4条</td><td>18条/周</td><td>42</td><td><span class="tag green">健康</span></td><td><button class="btn ghost">查看</button></td></tr>
+              <tr><td><div class="user"><div class="avatar">赵</div><div><b>长兴岛观光船队</b><br><span class="muted">长兴岛</span></div></div></td><td>旗舰版 ¥999/月</td><td>9条</td><td>31条/周</td><td>88</td><td><span class="tag green">高价值</span></td><td><button class="btn ghost">查看</button></td></tr>
+              <tr><td><div class="user"><div class="avatar">孙</div><div><b>金石滩亲子出海</b><br><span class="muted">金石滩</span></div></div></td><td>基础版 ¥399/月</td><td>2条</td><td>2条/周</td><td>6</td><td><span class="tag yellow">低活跃</span></td><td><button class="btn ghost">跟进</button></td></tr>
+              <tr><td><div class="user"><div class="avatar">王</div><div><b>旅顺海钓小王</b><br><span class="muted">旅顺口</span></div></div></td><td>试用版</td><td>1条</td><td>9条/周</td><td>13</td><td><span class="tag red">待转化</span></td><td><button class="btn ghost">转付费</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="ai">
+        <div class="section-title"><h2>AI内容生产看板</h2><span>内容不是简单生成，要进入推送计划和效果反馈</span></div>
+        <div class="kanban">
+          <div class="lane"><h3>待生成</h3><div class="mini-card"><b>周末海钓套餐</b><span>赵船队 · 明日 08:00</span></div><div class="mini-card"><b>毕业季包船脚本</b><span>星海海钓老刘</span></div></div>
+          <div class="lane"><h3>待审核</h3><div class="mini-card"><b>大连日落观光文案</b><span>疑似夸大词：最便宜</span></div><div class="mini-card"><b>长兴岛赶海攻略</b><span>需补充安全提醒</span></div></div>
+          <div class="lane"><h3>已计划发布</h3><div class="mini-card"><b>亲子出海3小时</b><span>小红书 · 今晚20:30</span></div><div class="mini-card"><b>团建包船报价</b><span>公众号 · 明日09:00</span></div></div>
+          <div class="lane"><h3>效果回收</h3><div class="mini-card"><b>海钓新手教程</b><span>曝光 2.1万 · 咨询 21</span></div><div class="mini-card"><b>周末空闲船位</b><span>转化率 13.8%</span></div></div>
+        </div>
+        <div class="section-title"><h2>模板效果排行</h2><span>按线索转化率</span></div>
+        <div class="card">
+          <table class="table"><thead><tr><th>模板</th><th>适用场景</th><th>发布次数</th><th>咨询</th><th>转化率</th><th>动作</th></tr></thead><tbody>
+            <tr><td>天气好，适合出海</td><td>即时转化</td><td>186</td><td>712</td><td>21.4%</td><td><button class="btn ghost">设为推荐</button></td></tr>
+            <tr><td>周末亲子包船</td><td>家庭客群</td><td>92</td><td>248</td><td>17.9%</td><td><button class="btn ghost">复制模板</button></td></tr>
+            <tr><td>企业团建海上烧烤</td><td>高客单</td><td>54</td><td>126</td><td>15.1%</td><td><button class="btn ghost">优化</button></td></tr>
+          </tbody></table>
+        </div>
+      </section>
+
+      <section class="page" id="channels">
+        <div class="grid grid-4">
+          <div class="card stat"><div class="label">已授权渠道</div><div class="num">68</div><div class="trend">抖音/公众号/视频号</div></div>
+          <div class="card stat"><div class="label">本月预算记录</div><div class="num">¥36,400</div><div class="trend">客户自付</div></div>
+          <div class="card stat"><div class="label">平均ROI</div><div class="num">2.8</div><div class="trend">估算值</div></div>
+          <div class="card stat warn"><div class="label">发布失败</div><div class="num">12</div><div class="trend">需人工处理</div></div>
+        </div>
+        <div class="section-title"><h2>渠道状态</h2><span>第一版以记录、跳转、复制发布为主</span></div>
+        <div class="card"><table class="table"><thead><tr><th>平台</th><th>接入方式</th><th>状态</th><th>适合能力</th><th>风险</th></tr></thead><tbody>
+          <tr><td>公众号</td><td>服务号/订阅号后台 + 素材生成</td><td><span class="tag green">稳定</span></td><td>沉淀私域、复购</td><td>群发频次限制</td></tr>
+          <tr><td>抖音</td><td>开放平台申请 + 分享发布</td><td><span class="tag yellow">需审核</span></td><td>短视频获客</td><td>账号授权与发布规则变化</td></tr>
+          <tr><td>美团/点评</td><td>预算记录 + 文案建议 + 外部跳转</td><td><span class="tag yellow">半自动</span></td><td>承接强需求用户</td><td>类目和商家权限</td></tr>
+          <tr><td>小红书</td><td>素材包 + 发布提醒</td><td><span class="tag yellow">半自动</span></td><td>攻略种草</td><td>自动发布能力需确认</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="page" id="boats">
+        <div class="grid grid-3">
+          <div class="card stat"><div class="label">今日可用船只</div><div class="num">57</div><div class="trend">空闲率 67.8%</div></div>
+          <div class="card stat"><div class="label">今日已预约</div><div class="num">19</div><div class="trend">预计收入 ¥42,600</div></div>
+          <div class="card stat warn"><div class="label">维护/停航</div><div class="num">8</div><div class="trend">需提醒船东更新状态</div></div>
+        </div>
+        <div class="section-title"><h2>船只利用率排行</h2><span>帮助判断哪些客户真实受益</span></div>
+        <div class="card"><table class="table"><thead><tr><th>船只</th><th>所属客户</th><th>载客</th><th>本周预约</th><th>利用率</th><th>状态</th></tr></thead><tbody>
+          <tr><td>海风一号</td><td>长兴岛观光船队</td><td>12人</td><td>9</td><td><div class="progress"><span style="width:82%"></span></div></td><td><span class="tag green">热门</span></td></tr>
+          <tr><td>星海钓鱼艇A7</td><td>星海海钓老刘</td><td>8人</td><td>6</td><td><div class="progress"><span style="width:64%"></span></div></td><td><span class="tag green">正常</span></td></tr>
+          <tr><td>旅顺观光3号</td><td>旅顺海钓小王</td><td>10人</td><td>1</td><td><div class="progress"><span style="width:18%"></span></div></td><td><span class="tag yellow">待营销</span></td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="page" id="finance">
+        <div class="grid grid-4">
+          <div class="card stat"><div class="label">MRR</div><div class="num">¥12,860</div><div class="trend">订阅收入</div></div>
+          <div class="card stat warn"><div class="label">AI成本</div><div class="num">¥873</div><div class="trend">占收入 6.8%</div></div>
+          <div class="card stat"><div class="label">服务器成本</div><div class="num">¥0-300</div><div class="trend">MVP阶段</div></div>
+          <div class="card stat"><div class="label">毛利估算</div><div class="num">89%</div><div class="trend">未计人工</div></div>
+        </div>
+        <div class="section-title"><h2>套餐结构</h2><span>注意广告费不包含在套餐内</span></div>
+        <div class="grid grid-3">
+          <div class="card"><h2>基础版</h2><p class="muted">¥399/月 · 适合单船船长</p><p>AI文案、朋友圈、公众号草稿、基础档期。</p></div>
+          <div class="card"><h2>专业版</h2><p class="muted">¥699/月 · 主推套餐</p><p>多平台内容、推送计划、线索、报价话术。</p></div>
+          <div class="card"><h2>旗舰版</h2><p class="muted">¥999+/月 · 船队客户</p><p>短视频脚本、CRM、数据分析、AI额度更高。</p></div>
+        </div>
+      </section>
+
+      <section class="page" id="risk">
+        <div class="grid grid-2">
+          <div class="card"><h2>敏感内容审核</h2><div class="task"><div class="task-icon">!</div><div><b>“全大连最低价”疑似夸大宣传</b><small>建议改成“周末特惠船期”。</small></div></div><div class="task"><div class="task-icon">!</div><div><b>海况安全提醒缺失</b><small>出海类内容建议自动追加安全提示。</small></div></div></div>
+          <div class="card"><h2>客户服务边界</h2><p class="muted">系统应明确：提供AI生成、经营建议和软件工具，不承诺平台最终曝光、咨询量和成交量。</p><button class="btn">生成合同条款建议</button></div>
+        </div>
+        <div class="section-title"><h2>异常客户</h2><span>避免低价软件变成人工代运营</span></div>
+        <div class="card"><table class="table"><thead><tr><th>客户</th><th>问题</th><th>处理建议</th><th>状态</th></tr></thead><tbody>
+          <tr><td>金石滩亲子出海</td><td>连续要求人工改文案</td><td>引导使用高级模板或升级代运营包</td><td><span class="tag yellow">观察</span></td></tr>
+          <tr><td>旅顺海钓小王</td><td>只生成不发布</td><td>推送“一键复制教程”和发布提醒</td><td><span class="tag red">高风险</span></td></tr>
+        </tbody></table></div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const titles = {overview:'经营总览',users:'用户/船东管理',ai:'AI内容运营',channels:'渠道与投放',boats:'船只与档期',finance:'订阅与成本',risk:'客服与风控'};
+    document.querySelectorAll('#nav button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.page).classList.add('active');
+        document.getElementById('pageTitle').textContent = titles[btn.dataset.page];
+      })
+    })
+  </script>
+</body>
+</html>

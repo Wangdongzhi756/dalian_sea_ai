@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>船东小程序 - 海旅智营</title>
+  <style>
+    :root{--navy:#082a42;--blue:#0b6ea8;--cyan:#08a7c7;--green:#20b486;--yellow:#f5a623;--red:#e05252;--bg:#eef7fb;--card:#fff;--line:#d8e8ef;--text:#14334a;--muted:#6c8192;--shadow:0 18px 45px rgba(8,42,66,.12)}
+    *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 10%,rgba(8,167,199,.18),transparent 32%),linear-gradient(135deg,#eaf7fb,#f7fbfd);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:34px}.stage{display:grid;grid-template-columns:420px 1fr;gap:36px;align-items:center;width:min(1180px,100%)}.intro h1{font-size:40px;line-height:1.15;margin:0 0 14px;color:var(--navy)}.intro p{font-size:17px;line-height:1.85;color:var(--muted);margin:0 0 20px}.intro .tags{display:flex;gap:9px;flex-wrap:wrap}.tag{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue);font-weight:900;font-size:12px}.phone{width:390px;height:812px;background:#0a2537;border-radius:46px;padding:14px;box-shadow:0 30px 90px rgba(8,42,66,.28);justify-self:center}.screen{height:100%;border-radius:36px;overflow:hidden;background:#f4f9fb;position:relative}.status{height:36px;background:linear-gradient(135deg,#0a5d8f,#08a7c7);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:12px;font-weight:800}.app-head{height:86px;background:linear-gradient(135deg,#0a5d8f,#08a7c7);color:white;padding:16px 20px 18px;border-bottom-left-radius:26px;border-bottom-right-radius:26px}.app-head .name{font-size:21px;font-weight:950}.app-head .sub{font-size:12px;color:#d7f7ff;margin-top:4px}.content{height:calc(100% - 36px - 86px - 72px);overflow:auto;padding:16px 15px 20px}.page{display:none}.page.active{display:block}.card{background:white;border:1px solid var(--line);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 10px 26px rgba(8,42,66,.06)}.card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.card-title b{font-size:16px;color:var(--navy)}.card-title span{font-size:12px;color:var(--muted)}.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{background:#f1f9fc;border-radius:18px;padding:13px}.metric small{color:var(--muted);font-weight:800}.metric b{display:block;font-size:22px;color:var(--blue);margin-top:4px}.notice{display:flex;gap:11px;align-items:flex-start;background:#fff8e8;border:1px solid #f7ddb0;border-radius:18px;padding:13px;margin-bottom:13px}.notice i{font-style:normal;width:28px;height:28px;border-radius:10px;background:#f5a623;color:white;display:flex;align-items:center;justify-content:center;font-weight:900}.notice b{display:block;font-size:14px}.notice p{margin:2px 0 0;color:#8a6a28;font-size:12px;line-height:1.55}.btn{border:0;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--cyan));height:39px;padding:0 13px;color:white;font-weight:950;cursor:pointer}.btn.ghost{background:#eef8fc;color:var(--blue);border:1px solid #cae8f1}.btn.light{background:white;color:var(--blue);border:1px solid var(--line)}.row{display:flex;align-items:center;gap:10px}.space{justify-content:space-between}.tabs{position:absolute;left:0;right:0;bottom:0;height:72px;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding:5px 4px 8px}.tab{border:0;background:transparent;border-radius:16px;color:#8aa0af;font-size:10px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}.tab.active{color:var(--blue);background:#edf8fc}.tab .ico{font-size:18px}.chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:#edf8fc;color:var(--blue);font-size:11px;font-weight:900}.chip.green{background:#eafaf4;color:#159570}.chip.yellow{background:#fff5df;color:#a56d00}.chip.red{background:#fff0f0;color:#c93d3d}.copy{font-size:13px;line-height:1.72;color:#29485b;background:#f7fbfd;border-radius:16px;padding:12px;border:1px solid #e2eef3}.platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.platform{border:1px solid var(--line);border-radius:18px;padding:12px;background:#fff}.platform b{display:block;color:var(--navy);font-size:14px}.platform span{font-size:12px;color:var(--muted)}.platform .budget{font-size:20px;color:var(--blue);font-weight:950;margin:6px 0}.boat{display:flex;gap:12px}.boat-img{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#c3edf6,#0b6ea8);position:relative;overflow:hidden}.boat-img:before{content:"";position:absolute;left:10px;right:10px;bottom:18px;height:12px;border-radius:50% 50% 8px 8px;background:white}.boat-img:after{content:"";position:absolute;left:24px;bottom:30px;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:28px solid rgba(255,255,255,.9)}.boat h3{margin:0;font-size:15px;color:var(--navy)}.boat p{margin:3px 0 7px;color:var(--muted);font-size:12px}.timeline{display:flex;flex-direction:column;gap:10px}.slot{display:grid;grid-template-columns:70px 1fr;gap:10px;align-items:stretch}.slot-time{font-size:12px;color:var(--muted);font-weight:900;padding-top:8px}.slot-card{border-radius:16px;padding:12px;background:#edf8fc;border:1px solid #cde8f1}.slot-card.busy{background:#fff1f1;border-color:#f3c4c4}.slot-card.lock{background:#fff8e8;border-color:#f1ddb3}.slot-card b{display:block;font-size:14px}.slot-card span{font-size:12px;color:var(--muted)}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{text-align:center;padding:9px 0;border-radius:14px;background:#f2f8fb;color:#526c7d;font-size:12px;font-weight:900}.day.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:white}.day.busy{background:#fff0f0;color:#c44949}.lead{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:12px 0}.lead:first-of-type{border-top:0}.lead b{font-size:14px}.lead span{font-size:12px;color:var(--muted)}.profile{display:flex;align-items:center;gap:12px}.avatar{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:950}.menu{display:grid;gap:10px}.menu-item{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px 14px;display:flex;align-items:center;justify-content:space-between;font-weight:900}.toast{position:absolute;left:50%;bottom:92px;transform:translateX(-50%) translateY(18px);background:rgba(8,42,66,.9);color:white;border-radius:999px;padding:10px 14px;font-size:12px;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:900px){body{padding:16px}.stage{grid-template-columns:1fr}.intro{display:none}.phone{width:390px;max-width:100%;height:812px}}
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <section class="intro">
+      <h1>船东小程序原型</h1>
+      <p>这是给船长/船东使用的B端小程序，不是游客端。核心是让用户每天打开就知道：今天发什么内容、投哪个平台、哪条船空闲、哪些客户要跟进。</p>
+      <div class="tags"><span class="tag">AI文案</span><span class="tag">推送管理</span><span class="tag">美团/抖音预算</span><span class="tag">船只档期</span><span class="tag">客户线索</span><span class="tag">预约时间</span></div>
+    </section>
+    <section class="phone">
+      <div class="screen">
+        <div class="status"><span>9:41</span><span>5G 100%</span></div>
+        <div class="app-head"><div class="name" id="headTitle">海旅智营</div><div class="sub" id="headSub">长兴岛观光船队 · 今日经营建议已更新</div></div>
+        <main class="content">
+          <section class="page active" id="home">
+            <div class="notice"><i>AI</i><div><b>今天适合推“日落观光 + 海钓体验”</b><p>周六天气好，18:40左右日落，建议优先推广2条空闲船位。</p></div></div>
+            <div class="card">
+              <div class="card-title"><b>今日经营</b><span>自动统计</span></div>
+              <div class="metric-grid"><div class="metric"><small>待发布</small><b>6</b></div><div class="metric"><small>今日咨询</small><b>18</b></div><div class="metric"><small>可用船只</small><b>5</b></div><div class="metric"><small>预约金额</small><b>¥8.6k</b></div></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>AI建议动作</b><span>优先级</span></div>
+              <div class="lead"><div><b>发布抖音短视频脚本</b><span>预计带来 8-15 个咨询</span></div><button class="btn ghost" onclick="showToast('已加入今晚20:30推送计划')">加入</button></div>
+              <div class="lead"><div><b>给美团加 200 元预算</b><span>周末搜索需求较强</span></div><button class="btn ghost" onclick="showToast('已打开预算记录')">记录</button></div>
+              <div class="lead"><div><b>提醒老客户周末船期</b><span>复购客户 26 人</span></div><button class="btn ghost" onclick="showToast('已生成私域提醒文案')">生成</button></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>待处理线索</b><span>3个高意向</span></div>
+              <div class="lead"><div><b>王先生 · 公司团建</b><span>20人，预算5000，想周日下午</span></div><span class="chip green">高</span></div>
+              <div class="lead"><div><b>李女士 · 亲子出海</b><span>6人，有孩子，想看日落</span></div><span class="chip yellow">中</span></div>
+            </div>
+          </section>
+
+          <section class="page" id="content">
+            <div class="card">
+              <div class="card-title"><b>今日AI内容包</b><span>6条</span></div>
+              <div class="row" style="gap:8px;margin-bottom:10px"><span class="chip green">抖音</span><span class="chip">小红书</span><span class="chip">朋友圈</span><span class="chip">美团</span></div>
+              <div class="copy">标题：大连周末出海，不止看海，还能海钓和看日落。<br><br>正文：这个周六风浪条件不错，适合家庭、朋友聚会和小型团建。我们安排了3小时观光+体验海钓路线，傍晚还能看到海上日落。人数、预算、出发时间发我，AI助手可以直接给你推荐船型和报价。</div>
+              <div class="row space" style="margin-top:12px"><button class="btn ghost" onclick="showToast('文案已复制')">复制</button><button class="btn ghost" onclick="showToast('已重新生成一版更短文案')">重生成</button><button class="btn" onclick="showToast('已加入推送计划')">加入推送</button></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>美团活动文案</b><span>适合强需求</span></div>
+              <div class="copy">套餐名：周末海上观光3小时｜家庭亲子/朋友聚会/团建可选<br><br>卖点：船型可选、时间灵活、支持日落场、可加海钓体验。建议把“安全提醒”和“天气改期规则”放在详情页。</div>
+              <div class="row space" style="margin-top:12px"><button class="btn ghost" onclick="showToast('已生成美团详情页结构')">详情结构</button><button class="btn" onclick="showToast('已保存到素材库')">保存</button></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>短视频脚本</b><span>15秒</span></div>
+              <div class="copy">镜头1：海面和船头推进，字幕“周末大连适合出海”。<br>镜头2：朋友钓鱼/拍照，字幕“海钓、观光、日落都能安排”。<br>镜头3：船只空镜，字幕“发人数和时间，AI帮你配船”。</div>
+            </div>
+          </section>
+
+          <section class="page" id="push">
+            <div class="card">
+              <div class="card-title"><b>平台推送计划</b><span>本周</span></div>
+              <div class="platforms">
+                <div class="platform"><b>抖音</b><span>今晚 20:30</span><div class="budget">3条</div><button class="btn ghost" onclick="showToast('已复制抖音素材包')">素材包</button></div>
+                <div class="platform"><b>视频号</b><span>明早 09:00</span><div class="budget">2条</div><button class="btn ghost" onclick="showToast('已设提醒')">提醒</button></div>
+                <div class="platform"><b>公众号</b><span>周五 18:00</span><div class="budget">1篇</div><button class="btn ghost" onclick="showToast('已生成草稿')">草稿</button></div>
+                <div class="platform"><b>小红书</b><span>周六 10:00</span><div class="budget">2篇</div><button class="btn ghost" onclick="showToast('已保存封面建议')">封面</button></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>投放预算/充值记录</b><span>客户自付</span></div>
+              <div class="platforms">
+                <div class="platform"><b>美团</b><span>建议周末增加</span><div class="budget">¥200</div><button class="btn" onclick="showToast('记录成功：美团预算¥200')">记录预算</button></div>
+                <div class="platform"><b>抖音DOU+</b><span>日落视频</span><div class="budget">¥100</div><button class="btn" onclick="showToast('记录成功：抖音预算¥100')">记录预算</button></div>
+              </div>
+              <p style="font-size:12px;color:var(--muted);line-height:1.65;margin:12px 0 0">说明：广告费不包含在系统订阅费内。这里做预算建议、记录和效果归因，不替客户垫付。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>渠道授权</b><span>4个平台</span></div>
+              <div class="lead"><div><b>公众号</b><span>已绑定：长兴岛观光船队</span></div><span class="chip green">已授权</span></div>
+              <div class="lead"><div><b>抖音</b><span>发布能力待审核</span></div><span class="chip yellow">申请中</span></div>
+              <div class="lead"><div><b>美团</b><span>当前为预算记录模式</span></div><span class="chip">半自动</span></div>
+            </div>
+          </section>
+
+          <section class="page" id="boats">
+            <div class="card">
+              <div class="card-title"><b>我的船只</b><button class="btn ghost" onclick="showToast('打开新增船只表单')">新增</button></div>
+              <div class="boat"><div class="boat-img"></div><div style="flex:1"><h3>海风一号</h3><p>12人 · 观光/海钓 · ¥1680起</p><span class="chip green">今日可约</span></div></div>
+            </div>
+            <div class="card"><div class="boat"><div class="boat-img"></div><div style="flex:1"><h3>海风二号</h3><p>8人 · 日落观光 · ¥980起</p><span class="chip yellow">16:00后可约</span></div></div></div>
+            <div class="card"><div class="boat"><div class="boat-img"></div><div style="flex:1"><h3>长兴岛团建船A</h3><p>20人 · 团建/烧烤 · ¥3600起</p><span class="chip red">维护中</span></div></div></div>
+            <div class="card">
+              <div class="card-title"><b>AI定价建议</b><span>根据空闲和周末</span></div>
+              <div class="copy">海风二号周六日落场还有空档，建议从 ¥980 调整到 ¥1180，并推出“亲子日落体验”内容，优先发视频号和朋友圈。</div>
+            </div>
+          </section>
+
+          <section class="page" id="schedule">
+            <div class="card">
+              <div class="card-title"><b>7月档期</b><span>海风一号</span></div>
+              <div class="calendar"><div class="day">一<br>8</div><div class="day active">二<br>9</div><div class="day busy">三<br>10</div><div class="day">四<br>11</div><div class="day busy">五<br>12</div><div class="day active">六<br>13</div><div class="day">日<br>14</div></div>
+            </div>
+            <div class="card">
+              <div class="card-title"><b>今天时间轴</b><button class="btn ghost" onclick="showToast('已锁定维护时间')">锁定时间</button></div>
+              <div class="timeline">
+                <div class="slot"><div class="slot-time">09:00</div><div class="slot-card"><b>空闲可约</b><span>AI建议：发“上午海钓体验”</span></div></div>
+                <div class="slot"><div class="slot-time">13:30</div><div class="slot-card busy"><b>已预约 · 王先生团建</b><span>20人 · 预估 ¥5200 · 待确认尾款</span></div></div>
+                <div class="slot"><div class="slot-time">17:30</div><div class="slot-card"><b>空闲可约 · 日落场</b><span>建议提高曝光，适合亲子/情侣</span></div></div>
+                <div class="slot"><div class="slot-time">20:00</div><div class="slot-card lock"><b>维护检查</b><span>发动机/救生设备确认</span></div></div>
+              </div>
+            </div>
+            <div class="card"><button class="btn" style="width:100%" onclick="showToast('打开新增预约')">新增预约</button></div>
+          </section>
+
+          <section class="page" id="mine">
+            <div class="card profile"><div class="avatar">赵</div><div><b>长兴岛观光船队</b><br><span class="muted">旗舰版 · 到期 2026-08-08</span></div></div>
+            <div class="card">
+              <div class="metric-grid"><div class="metric"><small>本月内容</small><b>126</b></div><div class="metric"><small>AI额度</small><b>68%</b></div><div class="metric"><small>客户线索</small><b>312</b></div><div class="metric"><small>成交记录</small><b>47</b></div></div>
+            </div>
+            <div class="menu">
+              <div class="menu-item">套餐与续费 <span>›</span></div>
+              <div class="menu-item">渠道账号授权 <span>›</span></div>
+              <div class="menu-item">AI生成偏好 <span>›</span></div>
+              <div class="menu-item">船只资料模板 <span>›</span></div>
+              <div class="menu-item">帮助与客服 <span>›</span></div>
+            </div>
+          </section>
+        </main>
+        <nav class="tabs" id="tabs">
+          <button class="tab active" data-page="home" data-title="海旅智营" data-sub="长兴岛观光船队 · 今日经营建议已更新"><span class="ico">⌂</span>首页</button>
+          <button class="tab" data-page="content" data-title="AI文案" data-sub="按平台生成内容包"><span class="ico">✦</span>AI文案</button>
+          <button class="tab" data-page="push" data-title="推送管理" data-sub="发布计划与投放预算"><span class="ico">↗</span>推送</button>
+          <button class="tab" data-page="boats" data-title="船只管理" data-sub="船型、价格、玩法与状态"><span class="ico">⚓</span>船只</button>
+          <button class="tab" data-page="schedule" data-title="档期预约" data-sub="查看预定和空闲时间"><span class="ico">□</span>档期</button>
+          <button class="tab" data-page="mine" data-title="我的" data-sub="账号、套餐和系统设置"><span class="ico">☻</span>我的</button>
+        </nav>
+        <div class="toast" id="toast">已操作</div>
+      </div>
+    </section>
+  </div>
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.page).classList.add('active');
+        document.getElementById('headTitle').textContent = tab.dataset.title;
+        document.getElementById('headSub').textContent = tab.dataset.sub;
+      });
+    });
+    function showToast(text){
+      const toast = document.getElementById('toast');
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),1800);
+    }
+  </script>
+</body>
+</html>

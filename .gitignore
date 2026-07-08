@@ -1,0 +1,29 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Java
+target/
+*.class
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Environment and secrets
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.jks
+
