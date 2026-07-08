@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.daliansea.ai.common.exception.ServiceException;
 import com.daliansea.ai.common.utils.StringUtils;
+import com.daliansea.ai.system.domain.SeaAiCallLog;
 import com.daliansea.ai.system.domain.SeaContentPublish;
+import com.daliansea.ai.system.domain.SeaContentTemplate;
 import com.daliansea.ai.system.domain.SeaVessel;
+import com.daliansea.ai.system.mapper.SeaAiCallLogMapper;
 import com.daliansea.ai.system.mapper.SeaContentPublishMapper;
+import com.daliansea.ai.system.mapper.SeaContentTemplateMapper;
 import com.daliansea.ai.system.mapper.SeaVesselMapper;
 import com.daliansea.ai.system.service.ISeaContentPublishService;
 
@@ -25,13 +29,19 @@ public class SeaContentPublishServiceImpl implements ISeaContentPublishService
 
     private static final String DEFAULT_PROVIDER = "local";
 
-    private static final String DEFAULT_MODEL = "copy-rule-v1";
+    private static final String DEFAULT_MODEL = "copy-template-v1";
 
     @Autowired
     private SeaContentPublishMapper contentMapper;
 
     @Autowired
     private SeaVesselMapper vesselMapper;
+
+    @Autowired
+    private SeaContentTemplateMapper templateMapper;
+
+    @Autowired
+    private SeaAiCallLogMapper callLogMapper;
 
     @Override
     public List<SeaContentPublish> selectContentList(SeaContentPublish content)
@@ -69,15 +79,20 @@ public class SeaContentPublishServiceImpl implements ISeaContentPublishService
     @Transactional
     public SeaContentPublish generateContent(SeaContentPublish content)
     {
+        long start = System.currentTimeMillis();
         normalizeContent(content);
         fillVesselInfo(content);
         content.setTitle(StringUtils.defaultIfBlank(content.getTitle(), buildTitle(content)));
-        content.setContent(buildCopy(content));
+        SeaContentTemplate template = selectTemplate(content);
+        String prompt = buildPrompt(content, template);
+        String answer = buildCopy(content, template);
+        content.setContent(answer);
         content.setPublishStatus("draft");
         content.setPushStatus("pending");
         content.setAiProvider(DEFAULT_PROVIDER);
         content.setAiModel(DEFAULT_MODEL);
         contentMapper.insertContent(content);
+        recordAiLog(content, prompt, answer, System.currentTimeMillis() - start);
         return contentMapper.selectContentById(content.getContentId());
     }
 
@@ -155,8 +170,33 @@ public class SeaContentPublishServiceImpl implements ISeaContentPublishService
         return vesselName + "｜" + content.getTopic();
     }
 
-    private String buildCopy(SeaContentPublish content)
+    private SeaContentTemplate selectTemplate(SeaContentPublish content)
     {
+        SeaContentTemplate query = new SeaContentTemplate();
+        query.setTenantId(content.getTenantId());
+        query.setContentType(content.getContentType());
+        query.setPublishChannel(content.getPublishChannel());
+        return templateMapper.selectDefaultTemplate(query);
+    }
+
+    private String buildPrompt(SeaContentPublish content, SeaContentTemplate template)
+    {
+        if (StringUtils.isNotNull(template))
+        {
+            return renderTemplate(template.getPromptTemplate(), content);
+        }
+        return "请生成" + content.getTopic() + "相关文案，类型：" + content.getContentType()
+                + "，渠道：" + content.getPublishChannel()
+                + "，语气：" + content.getTone()
+                + "，亮点：" + StringUtils.defaultString(content.getHighlights());
+    }
+
+    private String buildCopy(SeaContentPublish content, SeaContentTemplate template)
+    {
+        if (StringUtils.isNotNull(template))
+        {
+            return renderTemplate(template.getPromptTemplate(), content);
+        }
         String type = content.getContentType();
         if ("moments".equals(type))
         {
@@ -171,6 +211,43 @@ public class SeaContentPublishServiceImpl implements ISeaContentPublishService
             return buildLiveStreamScript(content);
         }
         return buildWechatArticle(content);
+    }
+
+    private String renderTemplate(String template, SeaContentPublish content)
+    {
+        return StringUtils.defaultString(template)
+                .replace("{title}", StringUtils.defaultString(content.getTitle()))
+                .replace("{topic}", StringUtils.defaultString(content.getTopic()))
+                .replace("{vesselName}", StringUtils.defaultIfBlank(content.getVesselName(), "船舶"))
+                .replace("{captainName}", StringUtils.defaultIfBlank(content.getCaptainName(), "船长"))
+                .replace("{captainPhone}", StringUtils.defaultString(content.getCaptainPhone()))
+                .replace("{highlights}", StringUtils.defaultIfBlank(content.getHighlights(), "安全、准点、服务细致"))
+                .replace("{tone}", StringUtils.defaultIfBlank(content.getTone(), "专业可信"))
+                .replace("{contentType}", StringUtils.defaultString(content.getContentType()))
+                .replace("{publishChannel}", StringUtils.defaultString(content.getPublishChannel()));
+    }
+
+    private void recordAiLog(SeaContentPublish content, String prompt, String answer, long latencyMs)
+    {
+        SeaAiCallLog log = new SeaAiCallLog();
+        log.setTenantId(content.getTenantId());
+        log.setScene("content_copy");
+        log.setQuestion(StringUtils.substring(prompt, 0, 1000));
+        log.setAnswer(StringUtils.substring(answer, 0, 2000));
+        log.setProviderName(DEFAULT_PROVIDER);
+        log.setModelName(DEFAULT_MODEL);
+        log.setRequestTokens(estimateTokens(prompt));
+        log.setResponseTokens(estimateTokens(answer));
+        log.setTotalTokens(log.getRequestTokens() + log.getResponseTokens());
+        log.setLatencyMs(latencyMs);
+        log.setSuccessFlag("0");
+        log.setCreateBy(content.getCreateBy());
+        callLogMapper.insertCallLog(log);
+    }
+
+    private int estimateTokens(String text)
+    {
+        return Math.max(1, StringUtils.defaultString(text).length() / 2);
     }
 
     private String buildWechatArticle(SeaContentPublish content)

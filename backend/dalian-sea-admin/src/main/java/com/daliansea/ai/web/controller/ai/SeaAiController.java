@@ -22,6 +22,8 @@ import com.daliansea.ai.common.utils.poi.ExcelUtil;
 import com.daliansea.ai.system.domain.SeaAiCallLog;
 import com.daliansea.ai.system.domain.SeaAiChatRequest;
 import com.daliansea.ai.system.domain.SeaAiKnowledge;
+import com.daliansea.ai.system.domain.SeaContentTemplate;
+import com.daliansea.ai.system.service.ISeaContentTemplateService;
 import com.daliansea.ai.system.service.ISeaAiService;
 
 /**
@@ -35,6 +37,9 @@ public class SeaAiController extends BaseController
 {
     @Autowired
     private ISeaAiService aiService;
+
+    @Autowired
+    private ISeaContentTemplateService templateService;
 
     @PreAuthorize("@ss.hasPermi('ai:knowledge:list')")
     @GetMapping("/knowledge/list")
@@ -86,6 +91,58 @@ public class SeaAiController extends BaseController
     public AjaxResult removeKnowledge(@PathVariable Long[] knowledgeIds)
     {
         return toAjax(aiService.deleteKnowledgeByIds(knowledgeIds));
+    }
+
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:list')")
+    @GetMapping("/contentTemplate/list")
+    public TableDataInfo templateList(SeaContentTemplate template)
+    {
+        startPage();
+        List<SeaContentTemplate> list = templateService.selectTemplateList(template);
+        return getDataTable(list);
+    }
+
+    @Log(title = "AI文案模板", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:export')")
+    @PostMapping("/contentTemplate/export")
+    public void templateExport(HttpServletResponse response, SeaContentTemplate template)
+    {
+        List<SeaContentTemplate> list = templateService.selectTemplateList(template);
+        ExcelUtil<SeaContentTemplate> util = new ExcelUtil<SeaContentTemplate>(SeaContentTemplate.class);
+        util.exportExcel(response, list, "AI文案模板数据");
+    }
+
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:query')")
+    @GetMapping("/contentTemplate/{templateId}")
+    public AjaxResult getTemplate(@PathVariable Long templateId)
+    {
+        return success(templateService.selectTemplateById(templateId));
+    }
+
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:add')")
+    @Log(title = "AI文案模板", businessType = BusinessType.INSERT)
+    @PostMapping("/contentTemplate")
+    public AjaxResult addTemplate(@Validated @RequestBody SeaContentTemplate template)
+    {
+        template.setCreateBy(getUsername());
+        return toAjax(templateService.insertTemplate(template));
+    }
+
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:edit')")
+    @Log(title = "AI文案模板", businessType = BusinessType.UPDATE)
+    @PutMapping("/contentTemplate")
+    public AjaxResult editTemplate(@Validated @RequestBody SeaContentTemplate template)
+    {
+        template.setUpdateBy(getUsername());
+        return toAjax(templateService.updateTemplate(template));
+    }
+
+    @PreAuthorize("@ss.hasPermi('ai:contentTemplate:remove')")
+    @Log(title = "AI文案模板", businessType = BusinessType.DELETE)
+    @DeleteMapping("/contentTemplate/{templateIds}")
+    public AjaxResult removeTemplate(@PathVariable Long[] templateIds)
+    {
+        return toAjax(templateService.deleteTemplateByIds(templateIds));
     }
 
     @PreAuthorize("@ss.hasPermi('ai:callLog:list')")

@@ -20,6 +20,15 @@ export interface AiCallLogQueryParams extends PageDomain {
   successFlag?: string;
 }
 
+/** AI文案模板分页查询参数 */
+export interface ContentTemplateQueryParams extends PageDomain {
+  tenantId?: number;
+  templateName?: string;
+  contentType?: string;
+  publishChannel?: string;
+  status?: string;
+}
+
 /** AI知识库 */
 export interface SeaAiKnowledge extends BaseEntity {
   knowledgeId?: number;
@@ -49,6 +58,19 @@ export interface SeaAiCallLog extends BaseEntity {
   latencyMs?: number;
   successFlag?: string;
   errorMessage?: string;
+}
+
+/** AI文案模板 */
+export interface SeaContentTemplate extends BaseEntity {
+  templateId?: number;
+  tenantId?: number;
+  tenantName?: string;
+  templateName?: string;
+  contentType?: string;
+  publishChannel?: string;
+  promptTemplate?: string;
+  status?: string;
+  sortOrder?: number;
 }
 
 /** AI问答请求 */

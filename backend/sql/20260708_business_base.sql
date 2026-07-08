@@ -193,7 +193,7 @@ create table if not exists sea_content_publish (
   push_message     varchar(500)    default ''                 comment '推流消息',
   publish_time     datetime                                   comment '发布时间',
   ai_provider      varchar(64)     default 'local'            comment 'AI供应商',
-  ai_model         varchar(100)    default 'copy-rule-v1'     comment 'AI模型',
+  ai_model         varchar(100)    default 'copy-template-v1' comment 'AI模型',
   create_by        varchar(64)     default ''                 comment '创建者',
   create_time      datetime                                   comment '创建时间',
   update_by        varchar(64)     default ''                 comment '更新者',
@@ -206,6 +206,26 @@ create table if not exists sea_content_publish (
   key idx_sea_content_publish_status (publish_status),
   key idx_sea_content_push_status (push_status)
 ) engine=innodb auto_increment=100 comment = '内容发布表';
+
+create table if not exists sea_content_template (
+  template_id      bigint(20)      not null auto_increment    comment '模板ID',
+  tenant_id        bigint(20)      not null                   comment '租户ID',
+  template_name    varchar(100)    not null                   comment '模板名称',
+  content_type     varchar(32)     not null                   comment '内容类型',
+  publish_channel  varchar(32)     not null                   comment '发布渠道',
+  prompt_template  text            not null                   comment '提示词/文案骨架',
+  status           char(1)         default '0'                comment '状态（0启用 1停用）',
+  sort_order       int(11)         default 0                  comment '排序',
+  create_by        varchar(64)     default ''                 comment '创建者',
+  create_time      datetime                                   comment '创建时间',
+  update_by        varchar(64)     default ''                 comment '更新者',
+  update_time      datetime                                   comment '更新时间',
+  remark           varchar(500)    default null               comment '备注',
+  primary key (template_id),
+  key idx_sea_content_template_tenant (tenant_id),
+  key idx_sea_content_template_type (content_type, publish_channel),
+  key idx_sea_content_template_status (status)
+) engine=innodb auto_increment=100 comment = 'AI文案模板表';
 
 create table if not exists sea_ai_knowledge (
   knowledge_id    bigint(20)      not null auto_increment    comment '知识ID',
@@ -257,7 +277,11 @@ insert ignore into sea_vessel_license values(1, 1, 1, 'operation', 'DLSEA-LICENS
 insert ignore into sea_business_application values(1, 1, 1, 1, 'APP202607080001', 'vessel_service', '示范船舶业务申请', '示范船员', '15800000001', 'normal', '初始化示范业务申请', '待审核', 35, 'submitted', sysdate(), '', null, '', 'admin', sysdate(), '', null, '初始化业务申请');
 insert ignore into sea_business_progress values(1, 1, 'APP202607080001', '已提交', 'submitted', 'admin', sysdate(), '申请已提交，等待平台审核', 'admin', sysdate());
 insert ignore into sea_business_notice values(1, 1, 'APP202607080001', '业务申请已提交', '申请单 APP202607080001 已提交，当前等待审核。', 'application', '0', '示范船员', 'admin', sysdate());
-insert ignore into sea_content_publish values(1, 1, 1, '示范船长', '15888888888', 'wechat_article', 'captain_wechat', '大连近海观光预约', '专业可信', '母港大连港；服务区域大连近海观光；载客12人；', '大连海示范船｜大连近海观光预约', '【大连海示范船｜大连近海观光预约】\n\n今天想和大家介绍大连海示范船的最新服务安排。\n\n服务亮点：母港大连港；服务区域大连近海观光；载客12人；\n\n欢迎通过公众号咨询预约，也欢迎关注后续出航动态。', 'draft', 'pending', '', null, 'local', 'copy-rule-v1', 'admin', sysdate(), '', null, '初始化内容发布示例');
+insert ignore into sea_content_publish values(1, 1, 1, '示范船长', '15888888888', 'wechat_article', 'captain_wechat', '大连近海观光预约', '专业可信', '母港大连港；服务区域大连近海观光；载客12人；', '大连海示范船｜大连近海观光预约', '【大连海示范船｜大连近海观光预约】\n\n今天想和大家介绍大连海示范船的最新服务安排。\n\n服务亮点：母港大连港；服务区域大连近海观光；载客12人；\n\n欢迎通过公众号咨询预约，也欢迎关注后续出航动态。', 'draft', 'pending', '', null, 'local', 'copy-template-v1', 'admin', sysdate(), '', null, '初始化内容发布示例');
+insert ignore into sea_content_template values(1, 1, '船长公众号文章模板', 'wechat_article', 'captain_wechat', '【{title}】\n\n今天想和大家介绍{vesselName}的最新服务安排。\n\n这次主题是“{topic}”。我们会继续把安全检查、航前准备、船员协同和游客体验放在前面，确保每一次出航都有清晰流程和可靠保障。\n\n服务亮点：\n1. {highlights}\n2. 船长{captainName}负责航前确认，重点关注天气、航线、载客和设备状态。\n3. 如遇临时海况变化，将第一时间调整计划并同步通知。\n\n欢迎通过公众号咨询预约，也欢迎关注后续出航动态。', '0', 1, 'admin', sysdate(), '', null, '初始化公众号模板');
+insert ignore into sea_content_template values(2, 1, '朋友圈预约模板', 'moments', 'captain_wechat', '{vesselName}今日更新：{topic}\n{highlights}\n安全出航、规范服务，欢迎咨询预约。', '0', 2, 'admin', sysdate(), '', null, '初始化朋友圈模板');
+insert ignore into sea_content_template values(3, 1, '短视频脚本模板', 'short_video_script', 'video_account', '短视频脚本｜{topic}\n\n开场 3 秒：镜头扫过{vesselName}，字幕“今天带你看一次标准出航准备”。\n中段 15 秒：展示安全检查、设备确认、航线沟通和服务区域。\n重点口播：{highlights}\n结尾 5 秒：公众号预约提示，提醒关注出航时间和天气变化。', '0', 3, 'admin', sysdate(), '', null, '初始化短视频模板');
+insert ignore into sea_content_template values(4, 1, '直播推流脚本模板', 'live_stream_script', 'live_stream', '直播推流脚本｜{topic}\n\n1. 开场：介绍{vesselName}、今日海况和直播主题。\n2. 船舶展示：讲解甲板、救生设备、服务区域和乘船注意事项。\n3. 互动答疑：回答预约、航线、证照、安全措施等问题。\n4. 收尾引导：提醒关注公众号，后续推送出航计划和活动文案。\n\n推流备注：{highlights}', '0', 4, 'admin', sysdate(), '', null, '初始化直播模板');
 insert ignore into sea_ai_knowledge values(1, 1, '船舶营运证办理材料', 'operation', 'manual', '船舶营运证办理通常需要提交船舶基础档案、船舶检验证书、保险证明、船员适任证书、企业或船东主体资料，并确保船舶状态为正常。', '营运证,证照,船舶', '0', 'admin', sysdate(), '', null, '初始化海事知识');
 insert ignore into sea_ai_knowledge values(2, 1, '出海安全检查要点', 'safety', 'manual', '出海前需要检查天气海况、船舶证照、救生消防设备、通信设备、船员健康状态、航线计划和乘客承载人数，发现异常应先完成整改。', '安全,出海,检查', '0', 'admin', sysdate(), '', null, '初始化海事知识');
 
@@ -273,6 +297,7 @@ insert ignore into sys_menu values('306', '内容发布', '3', '7', 'content', '
 insert ignore into sys_menu values('400', 'AI助手', '4', '1', 'assistant', 'ai/assistant/index', '', '', 1, 0, 'C', '0', '0', 'ai:assistant:ask', 'message', 'admin', sysdate(), '', null, 'AI助手菜单');
 insert ignore into sys_menu values('401', '知识库', '4', '2', 'knowledge', 'ai/knowledge/index', '', '', 1, 0, 'C', '0', '0', 'ai:knowledge:list', 'documentation', 'admin', sysdate(), '', null, 'AI知识库菜单');
 insert ignore into sys_menu values('402', '调用日志', '4', '3', 'callLog', 'ai/callLog/index', '', '', 1, 0, 'C', '0', '0', 'ai:callLog:list', 'log', 'admin', sysdate(), '', null, 'AI调用日志菜单');
+insert ignore into sys_menu values('403', '文案模板', '4', '4', 'contentTemplate', 'ai/contentTemplate/index', '', '', 1, 0, 'C', '0', '0', 'ai:contentTemplate:list', 'edit', 'admin', sysdate(), '', null, 'AI文案模板菜单');
 
 insert ignore into sys_menu values('1100', '租户查询', '300', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:tenant:query', '#', 'admin', sysdate(), '', null, '');
 insert ignore into sys_menu values('1101', '租户新增', '300', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:tenant:add', '#', 'admin', sysdate(), '', null, '');
@@ -321,6 +346,11 @@ insert ignore into sys_menu values('1165', '知识导出', '401', '5', '#', '', 
 insert ignore into sys_menu values('1170', '日志查询', '402', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:query', '#', 'admin', sysdate(), '', null, '');
 insert ignore into sys_menu values('1171', '日志删除', '402', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:remove', '#', 'admin', sysdate(), '', null, '');
 insert ignore into sys_menu values('1172', '日志导出', '402', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:export', '#', 'admin', sysdate(), '', null, '');
+insert ignore into sys_menu values('1173', '模板查询', '403', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:contentTemplate:query', '#', 'admin', sysdate(), '', null, '');
+insert ignore into sys_menu values('1174', '模板新增', '403', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:contentTemplate:add', '#', 'admin', sysdate(), '', null, '');
+insert ignore into sys_menu values('1175', '模板修改', '403', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:contentTemplate:edit', '#', 'admin', sysdate(), '', null, '');
+insert ignore into sys_menu values('1176', '模板删除', '403', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:contentTemplate:remove', '#', 'admin', sysdate(), '', null, '');
+insert ignore into sys_menu values('1177', '模板导出', '403', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:contentTemplate:export', '#', 'admin', sysdate(), '', null, '');
 
 insert ignore into sys_role_menu values ('2', '3');
 insert ignore into sys_role_menu values ('2', '4');
@@ -334,6 +364,7 @@ insert ignore into sys_role_menu values ('2', '306');
 insert ignore into sys_role_menu values ('2', '400');
 insert ignore into sys_role_menu values ('2', '401');
 insert ignore into sys_role_menu values ('2', '402');
+insert ignore into sys_role_menu values ('2', '403');
 insert ignore into sys_role_menu values ('2', '1100');
 insert ignore into sys_role_menu values ('2', '1101');
 insert ignore into sys_role_menu values ('2', '1102');
@@ -381,3 +412,8 @@ insert ignore into sys_role_menu values ('2', '1165');
 insert ignore into sys_role_menu values ('2', '1170');
 insert ignore into sys_role_menu values ('2', '1171');
 insert ignore into sys_role_menu values ('2', '1172');
+insert ignore into sys_role_menu values ('2', '1173');
+insert ignore into sys_role_menu values ('2', '1174');
+insert ignore into sys_role_menu values ('2', '1175');
+insert ignore into sys_role_menu values ('2', '1176');
+insert ignore into sys_role_menu values ('2', '1177');

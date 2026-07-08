@@ -38,6 +38,7 @@
 - [x] M2-3: 开发业务申请、审核、进度和通知闭环。
 - [x] M2-4: 接入 AI 服务层、知识库和调用日志。
 - [x] M2-5: 开发 AI 文案生成、内容发布/推流记录、船长移动端船舶管理和公众号文案入口。
+- [x] M2-5-1: 开发 AI 文案模板管理，内容生成优先使用模板，并记录到 AI 调用日志。
 - [ ] M2-6: 接入真实公众号、视频号或直播推流接口，将当前模拟发布记录替换为真实渠道回执。
 - [ ] M2-1-2: 将系统用户、部门、角色与租户主体建立绑定和数据隔离边界。该项后置；允许扩展若伊数据和关联表，若需要改核心功能实现需先确认方案。
 
@@ -53,5 +54,6 @@
 - 后端 `mvn clean package -DskipTests` 通过。
 - 管理端 `npm run build:prod` 通过。
 - 后端 jar 使用 `druid,docker` profile 在 `18080` 端口完成临时启动冒烟检查，验证码接口可访问，随后已停止检查进程。
-- Docker MySQL 已执行 `backend/sql/20260708_business_base.sql`，并验证 `sea_content_publish`、内容发布菜单、权限点和 role_id=2 授权数据存在。
+- 临时关闭本地验证码完成登录后，已验证 `ai/contentTemplate/list` 可返回 4 条模板，`business/content/generate` 会按模板生成文案并写入 `content_copy` AI 调用日志；测试后已恢复验证码配置并清理测试文案/日志。
+- Docker MySQL 已执行 `backend/sql/20260708_business_base.sql`，并验证 `sea_content_publish`、`sea_content_template`、内容发布/文案模板菜单、权限点和 role_id=2 授权数据存在。
 - 移动端当前没有独立 npm 构建入口，已完成 `pages.json` 解析校验和新增页面/API 引用检查。
