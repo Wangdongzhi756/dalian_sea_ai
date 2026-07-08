@@ -24,6 +24,7 @@ export * from "./business/crew";
 export * from "./business/crewCertificate";
 export * from "./business/vesselLicense";
 export * from "./business/application";
+export * from "./business/content";
 
 // AI 模块
 export * from "./ai";

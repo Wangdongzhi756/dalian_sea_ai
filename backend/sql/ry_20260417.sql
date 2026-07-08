@@ -320,7 +320,45 @@ create table sea_business_notice (
 insert into sea_business_notice values(1, 1, 'APP202607080001', '业务申请已提交', '申请单 APP202607080001 已提交，当前等待审核。', 'application', '0', '示范船员', 'admin', sysdate());
 
 -- ----------------------------
--- 3-9、AI知识库表
+-- 3-9、内容发布表
+-- ----------------------------
+drop table if exists sea_content_publish;
+create table sea_content_publish (
+  content_id       bigint(20)      not null auto_increment    comment '内容ID',
+  tenant_id        bigint(20)      not null                   comment '租户ID',
+  vessel_id        bigint(20)      default null               comment '船舶ID',
+  captain_name     varchar(50)     default ''                 comment '船长',
+  captain_phone    varchar(20)     default ''                 comment '船长电话',
+  content_type     varchar(32)     not null                   comment '内容类型',
+  publish_channel  varchar(32)     not null                   comment '发布渠道',
+  topic            varchar(100)    not null                   comment '主题',
+  tone             varchar(50)     default ''                 comment '语气风格',
+  highlights       varchar(1000)   default ''                 comment '亮点',
+  title            varchar(200)    default ''                 comment '标题',
+  content          text                                       comment '正文',
+  publish_status   varchar(32)     default 'draft'            comment '发布状态',
+  push_status      varchar(32)     default 'pending'          comment '推流状态',
+  push_message     varchar(500)    default ''                 comment '推流消息',
+  publish_time     datetime                                   comment '发布时间',
+  ai_provider      varchar(64)     default 'local'            comment 'AI供应商',
+  ai_model         varchar(100)    default 'copy-rule-v1'     comment 'AI模型',
+  create_by        varchar(64)     default ''                 comment '创建者',
+  create_time      datetime                                   comment '创建时间',
+  update_by        varchar(64)     default ''                 comment '更新者',
+  update_time      datetime                                   comment '更新时间',
+  remark           varchar(500)    default null               comment '备注',
+  primary key (content_id),
+  key idx_sea_content_tenant (tenant_id),
+  key idx_sea_content_vessel (vessel_id),
+  key idx_sea_content_captain_phone (captain_phone),
+  key idx_sea_content_publish_status (publish_status),
+  key idx_sea_content_push_status (push_status)
+) engine=innodb auto_increment=100 comment = '内容发布表';
+
+insert into sea_content_publish values(1, 1, 1, '示范船长', '15888888888', 'wechat_article', 'captain_wechat', '大连近海观光预约', '专业可信', '母港大连港；服务区域大连近海观光；载客12人；', '大连海示范船｜大连近海观光预约', '【大连海示范船｜大连近海观光预约】\n\n今天想和大家介绍大连海示范船的最新服务安排。\n\n服务亮点：母港大连港；服务区域大连近海观光；载客12人；\n\n欢迎通过公众号咨询预约，也欢迎关注后续出航动态。', 'draft', 'pending', '', null, 'local', 'copy-rule-v1', 'admin', sysdate(), '', null, '初始化内容发布示例');
+
+-- ----------------------------
+-- 3-10、AI知识库表
 -- ----------------------------
 drop table if exists sea_ai_knowledge;
 create table sea_ai_knowledge (
@@ -347,7 +385,7 @@ insert into sea_ai_knowledge values(1, 1, '船舶营运证办理材料', 'operat
 insert into sea_ai_knowledge values(2, 1, '出海安全检查要点', 'safety', 'manual', '出海前需要检查天气海况、船舶证照、救生消防设备、通信设备、船员健康状态、航线计划和乘客承载人数，发现异常应先完成整改。', '安全,出海,检查', '0', 'admin', sysdate(), '', null, '初始化海事知识');
 
 -- ----------------------------
--- 3-10、AI调用日志表
+-- 3-11、AI调用日志表
 -- ----------------------------
 drop table if exists sea_ai_call_log;
 create table sea_ai_call_log (
@@ -458,6 +496,7 @@ insert into sys_menu values('302',  '船员管理', '3',   '3', 'crew',       'b
 insert into sys_menu values('303',  '船员证书', '3',   '4', 'crewCertificate', 'business/crewCertificate/index', '', '', 1, 0, 'C', '0', '0', 'business:crewCertificate:list', 'documentation', 'admin', sysdate(), '', null, '船员证书菜单');
 insert into sys_menu values('304',  '船舶证照', '3',   '5', 'vesselLicense',   'business/vesselLicense/index',   '', '', 1, 0, 'C', '0', '0', 'business:vesselLicense:list',   'form',          'admin', sysdate(), '', null, '船舶证照菜单');
 insert into sys_menu values('305',  '业务申请', '3',   '6', 'application', 'business/application/index', '', '', 1, 0, 'C', '0', '0', 'business:application:list', 'form',          'admin', sysdate(), '', null, '业务申请菜单');
+insert into sys_menu values('306',  '内容发布', '3',   '7', 'content', 'business/content/index', '', '', 1, 0, 'C', '0', '0', 'business:content:list', 'message',          'admin', sysdate(), '', null, '内容发布菜单');
 insert into sys_menu values('400',  'AI助手',   '4',   '1', 'assistant', 'ai/assistant/index', '', '', 1, 0, 'C', '0', '0', 'ai:assistant:ask', 'message', 'admin', sysdate(), '', null, 'AI助手菜单');
 insert into sys_menu values('401',  '知识库',   '4',   '2', 'knowledge', 'ai/knowledge/index', '', '', 1, 0, 'C', '0', '0', 'ai:knowledge:list', 'documentation', 'admin', sysdate(), '', null, 'AI知识库菜单');
 insert into sys_menu values('402',  '调用日志', '4',   '3', 'callLog',   'ai/callLog/index',   '', '', 1, 0, 'C', '0', '0', 'ai:callLog:list',   'log', 'admin', sysdate(), '', null, 'AI调用日志菜单');
@@ -568,6 +607,15 @@ insert into sys_menu values('1153', '申请删除', '305', '4', '#', '', '', '',
 insert into sys_menu values('1154', '申请导出', '305', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:application:export', '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1155', '申请审核', '305', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:application:audit',  '#', 'admin', sysdate(), '', null, '');
 
+-- 内容发布按钮
+insert into sys_menu values('1180', '内容查询', '306', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:query', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1181', '内容新增', '306', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:add', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1182', '内容修改', '306', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:edit', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1183', '内容删除', '306', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:remove', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1184', '内容导出', '306', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:export', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1185', 'AI生成', '306', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:generate', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1186', '推流发布', '306', '7', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:content:publish', '#', 'admin', sysdate(), '', null, '');
+
 -- AI管理按钮
 insert into sys_menu values('1160', '助手问答', '400', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:assistant:ask', '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1161', '知识查询', '401', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:query', '#', 'admin', sysdate(), '', null, '');
@@ -633,6 +681,7 @@ insert into sys_role_menu values ('2', '302');
 insert into sys_role_menu values ('2', '303');
 insert into sys_role_menu values ('2', '304');
 insert into sys_role_menu values ('2', '305');
+insert into sys_role_menu values ('2', '306');
 insert into sys_role_menu values ('2', '400');
 insert into sys_role_menu values ('2', '401');
 insert into sys_role_menu values ('2', '402');
@@ -718,6 +767,13 @@ insert into sys_role_menu values ('2', '1152');
 insert into sys_role_menu values ('2', '1153');
 insert into sys_role_menu values ('2', '1154');
 insert into sys_role_menu values ('2', '1155');
+insert into sys_role_menu values ('2', '1180');
+insert into sys_role_menu values ('2', '1181');
+insert into sys_role_menu values ('2', '1182');
+insert into sys_role_menu values ('2', '1183');
+insert into sys_role_menu values ('2', '1184');
+insert into sys_role_menu values ('2', '1185');
+insert into sys_role_menu values ('2', '1186');
 insert into sys_role_menu values ('2', '1160');
 insert into sys_role_menu values ('2', '1161');
 insert into sys_role_menu values ('2', '1162');

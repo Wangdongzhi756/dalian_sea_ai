@@ -39,7 +39,9 @@
     { text: '进度通知', icon: 'chat-filled', url: '/pages/business/application/index' },
     { text: '证照办理', icon: 'paperclip', url: '/pages/business/application/form' },
     { text: '维修报备', icon: 'settings-filled', url: '/pages/business/application/form' },
-    { text: 'AI助手', icon: 'chat', url: '/pages/ai/assistant/index' }
+    { text: 'AI助手', icon: 'chat', url: '/pages/ai/assistant/index' },
+    { text: '我的船舶', icon: 'map', url: '/pages/captain/vessel/index' },
+    { text: '公众号文案', icon: 'paperplane', url: '/pages/captain/content/index' }
   ])
 
   function clickBannerItem(item) {

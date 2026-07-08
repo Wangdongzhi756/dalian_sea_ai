@@ -47,6 +47,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vesselType != null and vesselType != ''">
                 AND v.vessel_type = #{vesselType}
             </if>
+            <if test="captainPhone != null and captainPhone != ''">
+                AND v.captain_phone = #{captainPhone}
+            </if>
             <if test="status != null and status != ''">
                 AND v.status = #{status}
             </if>
