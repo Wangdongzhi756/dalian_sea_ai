@@ -17,6 +17,10 @@ export * from "./system/dict";
 export * from "./system/config";
 export * from "./system/notice";
 
+// business 模块
+export * from "./business/tenant";
+export * from "./business/vessel";
+
 // monitor 模块
 export * from "./monitor/cache";
 export * from "./monitor/logininfor";
