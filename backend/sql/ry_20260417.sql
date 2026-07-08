@@ -319,6 +319,59 @@ create table sea_business_notice (
 
 insert into sea_business_notice values(1, 1, 'APP202607080001', '业务申请已提交', '申请单 APP202607080001 已提交，当前等待审核。', 'application', '0', '示范船员', 'admin', sysdate());
 
+-- ----------------------------
+-- 3-9、AI知识库表
+-- ----------------------------
+drop table if exists sea_ai_knowledge;
+create table sea_ai_knowledge (
+  knowledge_id    bigint(20)      not null auto_increment    comment '知识ID',
+  tenant_id       bigint(20)      not null                   comment '租户ID',
+  title           varchar(100)    not null                   comment '知识标题',
+  category        varchar(32)     not null                   comment '知识分类',
+  source_type     varchar(32)     default 'manual'           comment '来源类型',
+  content         text            not null                   comment '知识内容',
+  tags            varchar(200)    default ''                 comment '标签',
+  status          char(1)         default '0'                comment '状态（0启用 1停用）',
+  create_by       varchar(64)     default ''                 comment '创建者',
+  create_time     datetime                                   comment '创建时间',
+  update_by       varchar(64)     default ''                 comment '更新者',
+  update_time     datetime                                   comment '更新时间',
+  remark          varchar(500)    default null               comment '备注',
+  primary key (knowledge_id),
+  key idx_sea_ai_knowledge_tenant (tenant_id),
+  key idx_sea_ai_knowledge_category (category),
+  key idx_sea_ai_knowledge_status (status)
+) engine=innodb auto_increment=100 comment = 'AI知识库表';
+
+insert into sea_ai_knowledge values(1, 1, '船舶营运证办理材料', 'operation', 'manual', '船舶营运证办理通常需要提交船舶基础档案、船舶检验证书、保险证明、船员适任证书、企业或船东主体资料，并确保船舶状态为正常。', '营运证,证照,船舶', '0', 'admin', sysdate(), '', null, '初始化海事知识');
+insert into sea_ai_knowledge values(2, 1, '出海安全检查要点', 'safety', 'manual', '出海前需要检查天气海况、船舶证照、救生消防设备、通信设备、船员健康状态、航线计划和乘客承载人数，发现异常应先完成整改。', '安全,出海,检查', '0', 'admin', sysdate(), '', null, '初始化海事知识');
+
+-- ----------------------------
+-- 3-10、AI调用日志表
+-- ----------------------------
+drop table if exists sea_ai_call_log;
+create table sea_ai_call_log (
+  log_id           bigint(20)      not null auto_increment    comment '日志ID',
+  tenant_id        bigint(20)      not null                   comment '租户ID',
+  scene            varchar(32)     default 'knowledge_qa'     comment 'AI场景',
+  question         varchar(1000)   default ''                 comment '用户问题',
+  answer           text                                       comment 'AI回答',
+  provider_name    varchar(64)     default 'local'            comment '供应商',
+  model_name       varchar(100)    default 'knowledge-rule-v1' comment '模型名称',
+  request_tokens   int(11)         default 0                  comment '请求Token',
+  response_tokens  int(11)         default 0                  comment '响应Token',
+  total_tokens     int(11)         default 0                  comment '总Token',
+  latency_ms       bigint(20)      default 0                  comment '耗时毫秒',
+  success_flag     char(1)         default '0'                comment '是否成功（0成功 1失败）',
+  error_message    varchar(500)    default ''                 comment '错误信息',
+  create_by        varchar(64)     default ''                 comment '创建者',
+  create_time      datetime                                   comment '创建时间',
+  primary key (log_id),
+  key idx_sea_ai_call_log_tenant (tenant_id),
+  key idx_sea_ai_call_log_scene (scene),
+  key idx_sea_ai_call_log_success (success_flag)
+) engine=innodb auto_increment=100 comment = 'AI调用日志表';
+
 
 -- ----------------------------
 -- 4、角色信息表
@@ -384,6 +437,7 @@ create table sys_menu (
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
 insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 insert into sys_menu values('3', '业务管理', '0', '3', 'business',         null, '', '', 1, 0, 'M', '0', '0', '', 'component','admin', sysdate(), '', null, '业务管理目录');
+insert into sys_menu values('4', 'AI管理',   '0', '4', 'ai',               null, '', '', 1, 0, 'M', '0', '0', '', 'education','admin', sysdate(), '', null, 'AI管理目录');
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', sysdate(), '', null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', sysdate(), '', null, '角色管理菜单');
@@ -404,6 +458,9 @@ insert into sys_menu values('302',  '船员管理', '3',   '3', 'crew',       'b
 insert into sys_menu values('303',  '船员证书', '3',   '4', 'crewCertificate', 'business/crewCertificate/index', '', '', 1, 0, 'C', '0', '0', 'business:crewCertificate:list', 'documentation', 'admin', sysdate(), '', null, '船员证书菜单');
 insert into sys_menu values('304',  '船舶证照', '3',   '5', 'vesselLicense',   'business/vesselLicense/index',   '', '', 1, 0, 'C', '0', '0', 'business:vesselLicense:list',   'form',          'admin', sysdate(), '', null, '船舶证照菜单');
 insert into sys_menu values('305',  '业务申请', '3',   '6', 'application', 'business/application/index', '', '', 1, 0, 'C', '0', '0', 'business:application:list', 'form',          'admin', sysdate(), '', null, '业务申请菜单');
+insert into sys_menu values('400',  'AI助手',   '4',   '1', 'assistant', 'ai/assistant/index', '', '', 1, 0, 'C', '0', '0', 'ai:assistant:ask', 'message', 'admin', sysdate(), '', null, 'AI助手菜单');
+insert into sys_menu values('401',  '知识库',   '4',   '2', 'knowledge', 'ai/knowledge/index', '', '', 1, 0, 'C', '0', '0', 'ai:knowledge:list', 'documentation', 'admin', sysdate(), '', null, 'AI知识库菜单');
+insert into sys_menu values('402',  '调用日志', '4',   '3', 'callLog',   'ai/callLog/index',   '', '', 1, 0, 'C', '0', '0', 'ai:callLog:list',   'log', 'admin', sysdate(), '', null, 'AI调用日志菜单');
 -- 三级菜单
 insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', '', 1, 0, 'C', '0', '0', 'monitor:operlog:list',    'form',          'admin', sysdate(), '', null, '操作日志菜单');
 insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor',    'admin', sysdate(), '', null, '登录日志菜单');
@@ -511,6 +568,17 @@ insert into sys_menu values('1153', '申请删除', '305', '4', '#', '', '', '',
 insert into sys_menu values('1154', '申请导出', '305', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:application:export', '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1155', '申请审核', '305', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:application:audit',  '#', 'admin', sysdate(), '', null, '');
 
+-- AI管理按钮
+insert into sys_menu values('1160', '助手问答', '400', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:assistant:ask', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1161', '知识查询', '401', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:query', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1162', '知识新增', '401', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:add', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1163', '知识修改', '401', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:edit', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1164', '知识删除', '401', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:remove', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1165', '知识导出', '401', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:knowledge:export', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1170', '日志查询', '402', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:query', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1171', '日志删除', '402', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:remove', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1172', '日志导出', '402', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'ai:callLog:export', '#', 'admin', sysdate(), '', null, '');
+
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -558,12 +626,16 @@ insert into sys_role_menu values ('2', '112');
 insert into sys_role_menu values ('2', '113');
 insert into sys_role_menu values ('2', '114');
 insert into sys_role_menu values ('2', '3');
+insert into sys_role_menu values ('2', '4');
 insert into sys_role_menu values ('2', '300');
 insert into sys_role_menu values ('2', '301');
 insert into sys_role_menu values ('2', '302');
 insert into sys_role_menu values ('2', '303');
 insert into sys_role_menu values ('2', '304');
 insert into sys_role_menu values ('2', '305');
+insert into sys_role_menu values ('2', '400');
+insert into sys_role_menu values ('2', '401');
+insert into sys_role_menu values ('2', '402');
 insert into sys_role_menu values ('2', '500');
 insert into sys_role_menu values ('2', '501');
 insert into sys_role_menu values ('2', '1000');
@@ -646,6 +718,15 @@ insert into sys_role_menu values ('2', '1152');
 insert into sys_role_menu values ('2', '1153');
 insert into sys_role_menu values ('2', '1154');
 insert into sys_role_menu values ('2', '1155');
+insert into sys_role_menu values ('2', '1160');
+insert into sys_role_menu values ('2', '1161');
+insert into sys_role_menu values ('2', '1162');
+insert into sys_role_menu values ('2', '1163');
+insert into sys_role_menu values ('2', '1164');
+insert into sys_role_menu values ('2', '1165');
+insert into sys_role_menu values ('2', '1170');
+insert into sys_role_menu values ('2', '1171');
+insert into sys_role_menu values ('2', '1172');
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门

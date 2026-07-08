@@ -37,6 +37,11 @@
       "navigationBarTitleText": "申请详情"
     }
   }, {
+    "path": "pages/ai/assistant/index",
+    "style": {
+      "navigationBarTitleText": "AI助手"
+    }
+  }, {
     "path": "pages/mine/index",
     "style": {
       "navigationBarTitleText": "我的"

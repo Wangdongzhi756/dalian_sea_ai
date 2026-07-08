@@ -25,6 +25,9 @@ export * from "./business/crewCertificate";
 export * from "./business/vesselLicense";
 export * from "./business/application";
 
+// AI 模块
+export * from "./ai";
+
 // monitor 模块
 export * from "./monitor/cache";
 export * from "./monitor/logininfor";
