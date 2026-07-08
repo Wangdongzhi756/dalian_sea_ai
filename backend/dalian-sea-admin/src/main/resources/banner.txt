@@ -1,0 +1,5 @@
+Application Version: ${daliansea.version}
+Spring Boot Version: ${spring-boot.version}
+============================================================
+ Dalian Sea AI SaaS
+============================================================
