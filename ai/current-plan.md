@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-当前处于 M2: 基础业务建模与 SaaS 底座开发阶段。第一批已落地租户主体和船舶档案维护能力。
+当前处于 M2: 基础业务建模与 SaaS 底座开发阶段。已落地租户主体、船舶/船员档案、证照档案和业务申请闭环。
 
 ## 已确定基线
 
@@ -36,7 +36,7 @@
 - [x] M2-2-1: 建立船舶档案表、后端 CRUD、管理端页面、菜单和权限点。
 - [ ] M2-1-2: 将系统用户、部门、角色与租户主体建立绑定和数据隔离边界。此任务会触碰若伊核心用户/组织/角色模型，执行前需先确认方案。
 - [x] M2-2-2: 开发船员档案、证书档案和船舶证照附件。
-- [ ] M2-3: 开发业务申请、审核、进度和通知闭环。
+- [x] M2-3: 开发业务申请、审核、进度和通知闭环。
 - [ ] M2-4: 接入 AI 服务层、知识库和调用日志。
 
 ## 编码限制
@@ -50,4 +50,5 @@
 - 后端 `mvn clean package -DskipTests` 通过。
 - 管理端 `npm run build:prod` 通过。
 - 后端 jar 使用 `druid,docker` profile 完成临时启动冒烟检查，验证码接口可访问，随后已停止检查进程。
-- Docker MySQL 已执行 `backend/sql/20260708_business_base.sql`，并验证 `sea_crew`、`sea_crew_certificate`、`sea_vessel_license` 和对应菜单数据存在。
+- Docker MySQL 已执行 `backend/sql/20260708_business_base.sql`，并验证 `sea_business_application`、`sea_business_progress`、`sea_business_notice` 和对应菜单权限数据存在。
+- 移动端当前没有独立 npm 构建入口，已完成 `pages.json` 解析校验和新增页面/API 引用检查。

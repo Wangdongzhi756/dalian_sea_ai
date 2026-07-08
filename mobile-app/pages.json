@@ -21,6 +21,22 @@
       "navigationBarTitleText": "工作台"
     }
   }, {
+    "path": "pages/business/application/index",
+    "style": {
+      "navigationBarTitleText": "业务申请",
+      "enablePullDownRefresh": true
+    }
+  }, {
+    "path": "pages/business/application/form",
+    "style": {
+      "navigationBarTitleText": "提交申请"
+    }
+  }, {
+    "path": "pages/business/application/detail",
+    "style": {
+      "navigationBarTitleText": "申请详情"
+    }
+  }, {
     "path": "pages/mine/index",
     "style": {
       "navigationBarTitleText": "我的"

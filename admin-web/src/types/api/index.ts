@@ -23,6 +23,7 @@ export * from "./business/vessel";
 export * from "./business/crew";
 export * from "./business/crewCertificate";
 export * from "./business/vesselLicense";
+export * from "./business/application";
 
 // monitor 模块
 export * from "./monitor/cache";
