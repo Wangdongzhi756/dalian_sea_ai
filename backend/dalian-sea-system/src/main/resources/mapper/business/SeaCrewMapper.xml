@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daliansea.ai.system.mapper.SeaCrewMapper">
+
+    <resultMap type="SeaCrew" id="SeaCrewResult">
+        <id     property="crewId"        column="crew_id"        />
+        <result property="tenantId"      column="tenant_id"      />
+        <result property="tenantName"    column="tenant_name"    />
+        <result property="vesselId"      column="vessel_id"      />
+        <result property="vesselName"    column="vessel_name"    />
+        <result property="crewCode"      column="crew_code"      />
+        <result property="crewName"      column="crew_name"      />
+        <result property="gender"        column="gender"         />
+        <result property="birthDate"     column="birth_date"     />
+        <result property="idCard"        column="id_card"        />
+        <result property="phone"         column="phone"          />
+        <result property="positionName"  column="position_name"  />
+        <result property="onboardStatus" column="onboard_status" />
+        <result property="healthStatus"  column="health_status"  />
+        <result property="status"        column="status"         />
+        <result property="createBy"      column="create_by"      />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"      column="update_by"      />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"        column="remark"         />
+    </resultMap>
+
+    <sql id="selectCrewVo">
+        select c.crew_id, c.tenant_id, t.tenant_name, c.vessel_id, v.vessel_name, c.crew_code, c.crew_name,
+               c.gender, c.birth_date, c.id_card, c.phone, c.position_name, c.onboard_status, c.health_status,
+               c.status, c.create_by, c.create_time, c.update_by, c.update_time, c.remark
+        from sea_crew c
+        left join sea_tenant t on c.tenant_id = t.tenant_id
+        left join sea_vessel v on c.vessel_id = v.vessel_id
+    </sql>
+
+    <select id="selectCrewList" parameterType="SeaCrew" resultMap="SeaCrewResult">
+        <include refid="selectCrewVo"/>
+        <where>
+            <if test="tenantId != null">
+                AND c.tenant_id = #{tenantId}
+            </if>
+            <if test="vesselId != null">
+                AND c.vessel_id = #{vesselId}
+            </if>
+            <if test="crewCode != null and crewCode != ''">
+                AND c.crew_code like concat('%', #{crewCode}, '%')
+            </if>
+            <if test="crewName != null and crewName != ''">
+                AND c.crew_name like concat('%', #{crewName}, '%')
+            </if>
+            <if test="positionName != null and positionName != ''">
+                AND c.position_name like concat('%', #{positionName}, '%')
+            </if>
+            <if test="onboardStatus != null and onboardStatus != ''">
+                AND c.onboard_status = #{onboardStatus}
+            </if>
+            <if test="status != null and status != ''">
+                AND c.status = #{status}
+            </if>
+        </where>
+        order by c.crew_id desc
+    </select>
+
+    <select id="selectCrewById" parameterType="Long" resultMap="SeaCrewResult">
+        <include refid="selectCrewVo"/>
+        where c.crew_id = #{crewId}
+    </select>
+
+    <select id="checkCrewCodeUnique" parameterType="String" resultMap="SeaCrewResult">
+        <include refid="selectCrewVo"/>
+        where c.crew_code = #{crewCode} limit 1
+    </select>
+
+    <insert id="insertCrew" parameterType="SeaCrew" useGeneratedKeys="true" keyProperty="crewId">
+        insert into sea_crew(
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="vesselId != null">vessel_id,</if>
+            <if test="crewCode != null and crewCode != ''">crew_code,</if>
+            <if test="crewName != null and crewName != ''">crew_name,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+            <if test="birthDate != null">birth_date,</if>
+            <if test="idCard != null and idCard != ''">id_card,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="positionName != null and positionName != ''">position_name,</if>
+            <if test="onboardStatus != null and onboardStatus != ''">onboard_status,</if>
+            <if test="healthStatus != null and healthStatus != ''">health_status,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="vesselId != null">#{vesselId},</if>
+            <if test="crewCode != null and crewCode != ''">#{crewCode},</if>
+            <if test="crewName != null and crewName != ''">#{crewName},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+            <if test="birthDate != null">#{birthDate},</if>
+            <if test="idCard != null and idCard != ''">#{idCard},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="positionName != null and positionName != ''">#{positionName},</if>
+            <if test="onboardStatus != null and onboardStatus != ''">#{onboardStatus},</if>
+            <if test="healthStatus != null and healthStatus != ''">#{healthStatus},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateCrew" parameterType="SeaCrew">
+        update sea_crew
+        <set>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="vesselId != null">vessel_id = #{vesselId},</if>
+            <if test="crewCode != null and crewCode != ''">crew_code = #{crewCode},</if>
+            <if test="crewName != null and crewName != ''">crew_name = #{crewName},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="birthDate != null">birth_date = #{birthDate},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="positionName != null">position_name = #{positionName},</if>
+            <if test="onboardStatus != null and onboardStatus != ''">onboard_status = #{onboardStatus},</if>
+            <if test="healthStatus != null and healthStatus != ''">health_status = #{healthStatus},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where crew_id = #{crewId}
+    </update>
+
+    <delete id="deleteCrewByIds" parameterType="Long">
+        delete from sea_crew where crew_id in
+        <foreach collection="array" item="crewId" open="(" separator="," close=")">
+            #{crewId}
+        </foreach>
+    </delete>
+
+</mapper>

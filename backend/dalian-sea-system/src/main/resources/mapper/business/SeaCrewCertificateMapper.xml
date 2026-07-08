@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daliansea.ai.system.mapper.SeaCrewCertificateMapper">
+
+    <resultMap type="SeaCrewCertificate" id="SeaCrewCertificateResult">
+        <id     property="certificateId"     column="certificate_id"     />
+        <result property="tenantId"          column="tenant_id"          />
+        <result property="tenantName"        column="tenant_name"        />
+        <result property="crewId"            column="crew_id"            />
+        <result property="crewName"          column="crew_name"          />
+        <result property="certificateType"   column="certificate_type"   />
+        <result property="certificateNo"     column="certificate_no"     />
+        <result property="issueDate"         column="issue_date"         />
+        <result property="expireDate"        column="expire_date"        />
+        <result property="issuingAuthority"  column="issuing_authority"  />
+        <result property="certificateStatus" column="certificate_status" />
+        <result property="createBy"          column="create_by"          />
+        <result property="createTime"        column="create_time"        />
+        <result property="updateBy"          column="update_by"          />
+        <result property="updateTime"        column="update_time"        />
+        <result property="remark"            column="remark"             />
+    </resultMap>
+
+    <sql id="selectCertificateVo">
+        select cc.certificate_id, cc.tenant_id, t.tenant_name, cc.crew_id, c.crew_name,
+               cc.certificate_type, cc.certificate_no, cc.issue_date, cc.expire_date,
+               cc.issuing_authority, cc.certificate_status, cc.create_by, cc.create_time,
+               cc.update_by, cc.update_time, cc.remark
+        from sea_crew_certificate cc
+        left join sea_tenant t on cc.tenant_id = t.tenant_id
+        left join sea_crew c on cc.crew_id = c.crew_id
+    </sql>
+
+    <select id="selectCertificateList" parameterType="SeaCrewCertificate" resultMap="SeaCrewCertificateResult">
+        <include refid="selectCertificateVo"/>
+        <where>
+            <if test="tenantId != null">
+                AND cc.tenant_id = #{tenantId}
+            </if>
+            <if test="crewId != null">
+                AND cc.crew_id = #{crewId}
+            </if>
+            <if test="certificateType != null and certificateType != ''">
+                AND cc.certificate_type = #{certificateType}
+            </if>
+            <if test="certificateNo != null and certificateNo != ''">
+                AND cc.certificate_no like concat('%', #{certificateNo}, '%')
+            </if>
+            <if test="certificateStatus != null and certificateStatus != ''">
+                AND cc.certificate_status = #{certificateStatus}
+            </if>
+        </where>
+        order by cc.certificate_id desc
+    </select>
+
+    <select id="selectCertificateById" parameterType="Long" resultMap="SeaCrewCertificateResult">
+        <include refid="selectCertificateVo"/>
+        where cc.certificate_id = #{certificateId}
+    </select>
+
+    <select id="checkCertificateNoUnique" parameterType="String" resultMap="SeaCrewCertificateResult">
+        <include refid="selectCertificateVo"/>
+        where cc.certificate_no = #{certificateNo} limit 1
+    </select>
+
+    <insert id="insertCertificate" parameterType="SeaCrewCertificate" useGeneratedKeys="true" keyProperty="certificateId">
+        insert into sea_crew_certificate(
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="crewId != null">crew_id,</if>
+            <if test="certificateType != null and certificateType != ''">certificate_type,</if>
+            <if test="certificateNo != null and certificateNo != ''">certificate_no,</if>
+            <if test="issueDate != null">issue_date,</if>
+            <if test="expireDate != null">expire_date,</if>
+            <if test="issuingAuthority != null and issuingAuthority != ''">issuing_authority,</if>
+            <if test="certificateStatus != null and certificateStatus != ''">certificate_status,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="crewId != null">#{crewId},</if>
+            <if test="certificateType != null and certificateType != ''">#{certificateType},</if>
+            <if test="certificateNo != null and certificateNo != ''">#{certificateNo},</if>
+            <if test="issueDate != null">#{issueDate},</if>
+            <if test="expireDate != null">#{expireDate},</if>
+            <if test="issuingAuthority != null and issuingAuthority != ''">#{issuingAuthority},</if>
+            <if test="certificateStatus != null and certificateStatus != ''">#{certificateStatus},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateCertificate" parameterType="SeaCrewCertificate">
+        update sea_crew_certificate
+        <set>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="crewId != null">crew_id = #{crewId},</if>
+            <if test="certificateType != null and certificateType != ''">certificate_type = #{certificateType},</if>
+            <if test="certificateNo != null and certificateNo != ''">certificate_no = #{certificateNo},</if>
+            <if test="issueDate != null">issue_date = #{issueDate},</if>
+            <if test="expireDate != null">expire_date = #{expireDate},</if>
+            <if test="issuingAuthority != null">issuing_authority = #{issuingAuthority},</if>
+            <if test="certificateStatus != null and certificateStatus != ''">certificate_status = #{certificateStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where certificate_id = #{certificateId}
+    </update>
+
+    <delete id="deleteCertificateByIds" parameterType="Long">
+        delete from sea_crew_certificate where certificate_id in
+        <foreach collection="array" item="certificateId" open="(" separator="," close=")">
+            #{certificateId}
+        </foreach>
+    </delete>
+
+</mapper>

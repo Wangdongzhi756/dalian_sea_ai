@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daliansea.ai.system.mapper.SeaVesselLicenseMapper">
+
+    <resultMap type="SeaVesselLicense" id="SeaVesselLicenseResult">
+        <id     property="licenseId"        column="license_id"        />
+        <result property="tenantId"         column="tenant_id"         />
+        <result property="tenantName"       column="tenant_name"       />
+        <result property="vesselId"         column="vessel_id"         />
+        <result property="vesselName"       column="vessel_name"       />
+        <result property="licenseType"      column="license_type"      />
+        <result property="licenseNo"        column="license_no"        />
+        <result property="issueDate"        column="issue_date"        />
+        <result property="expireDate"       column="expire_date"       />
+        <result property="issuingAuthority" column="issuing_authority" />
+        <result property="attachmentName"   column="attachment_name"   />
+        <result property="attachmentUrl"    column="attachment_url"    />
+        <result property="licenseStatus"    column="license_status"    />
+        <result property="createBy"         column="create_by"         />
+        <result property="createTime"       column="create_time"       />
+        <result property="updateBy"         column="update_by"         />
+        <result property="updateTime"       column="update_time"       />
+        <result property="remark"           column="remark"            />
+    </resultMap>
+
+    <sql id="selectLicenseVo">
+        select vl.license_id, vl.tenant_id, t.tenant_name, vl.vessel_id, v.vessel_name,
+               vl.license_type, vl.license_no, vl.issue_date, vl.expire_date, vl.issuing_authority,
+               vl.attachment_name, vl.attachment_url, vl.license_status, vl.create_by, vl.create_time,
+               vl.update_by, vl.update_time, vl.remark
+        from sea_vessel_license vl
+        left join sea_tenant t on vl.tenant_id = t.tenant_id
+        left join sea_vessel v on vl.vessel_id = v.vessel_id
+    </sql>
+
+    <select id="selectLicenseList" parameterType="SeaVesselLicense" resultMap="SeaVesselLicenseResult">
+        <include refid="selectLicenseVo"/>
+        <where>
+            <if test="tenantId != null">
+                AND vl.tenant_id = #{tenantId}
+            </if>
+            <if test="vesselId != null">
+                AND vl.vessel_id = #{vesselId}
+            </if>
+            <if test="licenseType != null and licenseType != ''">
+                AND vl.license_type = #{licenseType}
+            </if>
+            <if test="licenseNo != null and licenseNo != ''">
+                AND vl.license_no like concat('%', #{licenseNo}, '%')
+            </if>
+            <if test="licenseStatus != null and licenseStatus != ''">
+                AND vl.license_status = #{licenseStatus}
+            </if>
+        </where>
+        order by vl.license_id desc
+    </select>
+
+    <select id="selectLicenseById" parameterType="Long" resultMap="SeaVesselLicenseResult">
+        <include refid="selectLicenseVo"/>
+        where vl.license_id = #{licenseId}
+    </select>
+
+    <select id="checkLicenseNoUnique" parameterType="String" resultMap="SeaVesselLicenseResult">
+        <include refid="selectLicenseVo"/>
+        where vl.license_no = #{licenseNo} limit 1
+    </select>
+
+    <insert id="insertLicense" parameterType="SeaVesselLicense" useGeneratedKeys="true" keyProperty="licenseId">
+        insert into sea_vessel_license(
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="vesselId != null">vessel_id,</if>
+            <if test="licenseType != null and licenseType != ''">license_type,</if>
+            <if test="licenseNo != null and licenseNo != ''">license_no,</if>
+            <if test="issueDate != null">issue_date,</if>
+            <if test="expireDate != null">expire_date,</if>
+            <if test="issuingAuthority != null and issuingAuthority != ''">issuing_authority,</if>
+            <if test="attachmentName != null and attachmentName != ''">attachment_name,</if>
+            <if test="attachmentUrl != null and attachmentUrl != ''">attachment_url,</if>
+            <if test="licenseStatus != null and licenseStatus != ''">license_status,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        )values(
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="vesselId != null">#{vesselId},</if>
+            <if test="licenseType != null and licenseType != ''">#{licenseType},</if>
+            <if test="licenseNo != null and licenseNo != ''">#{licenseNo},</if>
+            <if test="issueDate != null">#{issueDate},</if>
+            <if test="expireDate != null">#{expireDate},</if>
+            <if test="issuingAuthority != null and issuingAuthority != ''">#{issuingAuthority},</if>
+            <if test="attachmentName != null and attachmentName != ''">#{attachmentName},</if>
+            <if test="attachmentUrl != null and attachmentUrl != ''">#{attachmentUrl},</if>
+            <if test="licenseStatus != null and licenseStatus != ''">#{licenseStatus},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateLicense" parameterType="SeaVesselLicense">
+        update sea_vessel_license
+        <set>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="vesselId != null">vessel_id = #{vesselId},</if>
+            <if test="licenseType != null and licenseType != ''">license_type = #{licenseType},</if>
+            <if test="licenseNo != null and licenseNo != ''">license_no = #{licenseNo},</if>
+            <if test="issueDate != null">issue_date = #{issueDate},</if>
+            <if test="expireDate != null">expire_date = #{expireDate},</if>
+            <if test="issuingAuthority != null">issuing_authority = #{issuingAuthority},</if>
+            <if test="attachmentName != null">attachment_name = #{attachmentName},</if>
+            <if test="attachmentUrl != null">attachment_url = #{attachmentUrl},</if>
+            <if test="licenseStatus != null and licenseStatus != ''">license_status = #{licenseStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where license_id = #{licenseId}
+    </update>
+
+    <delete id="deleteLicenseByIds" parameterType="Long">
+        delete from sea_vessel_license where license_id in
+        <foreach collection="array" item="licenseId" open="(" separator="," close=")">
+            #{licenseId}
+        </foreach>
+    </delete>
+
+</mapper>

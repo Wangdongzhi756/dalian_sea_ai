@@ -20,6 +20,9 @@ export * from "./system/notice";
 // business 模块
 export * from "./business/tenant";
 export * from "./business/vessel";
+export * from "./business/crew";
+export * from "./business/crewCertificate";
+export * from "./business/vesselLicense";
 
 // monitor 模块
 export * from "./monitor/cache";

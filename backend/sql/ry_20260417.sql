@@ -151,6 +151,93 @@ create table sea_vessel (
 
 insert into sea_vessel values(1, 1, 'DLSEA-001', '大连海示范船', 'sightseeing', 12, '大连港', '示范船长', '15888888888', '大连近海观光', '0', 'admin', sysdate(), '', null, '初始化示范船舶');
 
+-- ----------------------------
+-- 3-3、船员档案表
+-- ----------------------------
+drop table if exists sea_crew;
+create table sea_crew (
+  crew_id         bigint(20)      not null auto_increment    comment '船员ID',
+  tenant_id       bigint(20)      not null                   comment '租户ID',
+  vessel_id       bigint(20)      default null               comment '船舶ID',
+  crew_code       varchar(64)     not null                   comment '船员编码',
+  crew_name       varchar(50)     not null                   comment '船员姓名',
+  gender          char(1)         default '2'                comment '性别（0男 1女 2未知）',
+  birth_date      date            default null               comment '出生日期',
+  id_card         varchar(30)     default ''                 comment '证件号码',
+  phone           varchar(20)     default ''                 comment '联系电话',
+  position_name   varchar(50)     default ''                 comment '岗位职务',
+  onboard_status  varchar(32)     default 'standby'          comment '在船状态',
+  health_status   varchar(32)     default 'normal'           comment '健康状态',
+  status          char(1)         default '0'                comment '状态（0正常 1停用）',
+  create_by       varchar(64)     default ''                 comment '创建者',
+  create_time     datetime                                   comment '创建时间',
+  update_by       varchar(64)     default ''                 comment '更新者',
+  update_time     datetime                                   comment '更新时间',
+  remark          varchar(500)    default null               comment '备注',
+  primary key (crew_id),
+  unique key uk_sea_crew_code (crew_code),
+  key idx_sea_crew_tenant (tenant_id),
+  key idx_sea_crew_vessel (vessel_id)
+) engine=innodb auto_increment=100 comment = '船员档案表';
+
+insert into sea_crew values(1, 1, 1, 'DLSEA-CREW-001', '示范船员', '0', '1990-01-01', '210200199001010011', '15800000001', '船长', 'onboard', 'normal', '0', 'admin', sysdate(), '', null, '初始化示范船员');
+
+-- ----------------------------
+-- 3-4、船员证书档案表
+-- ----------------------------
+drop table if exists sea_crew_certificate;
+create table sea_crew_certificate (
+  certificate_id      bigint(20)      not null auto_increment    comment '证书ID',
+  tenant_id           bigint(20)      not null                   comment '租户ID',
+  crew_id             bigint(20)      not null                   comment '船员ID',
+  certificate_type    varchar(32)     not null                   comment '证书类型',
+  certificate_no      varchar(64)     not null                   comment '证书编号',
+  issue_date          date            default null               comment '签发日期',
+  expire_date         date            default null               comment '到期日期',
+  issuing_authority   varchar(100)    default ''                 comment '签发机构',
+  certificate_status  varchar(32)     default 'valid'            comment '证书状态',
+  create_by           varchar(64)     default ''                 comment '创建者',
+  create_time         datetime                                   comment '创建时间',
+  update_by           varchar(64)     default ''                 comment '更新者',
+  update_time         datetime                                   comment '更新时间',
+  remark              varchar(500)    default null               comment '备注',
+  primary key (certificate_id),
+  unique key uk_sea_crew_certificate_no (certificate_no),
+  key idx_sea_crew_certificate_tenant (tenant_id),
+  key idx_sea_crew_certificate_crew (crew_id)
+) engine=innodb auto_increment=100 comment = '船员证书档案表';
+
+insert into sea_crew_certificate values(1, 1, 1, 'captain', 'DLSEA-CERT-001', '2026-01-01', '2028-12-31', '大连海事示范机构', 'valid', 'admin', sysdate(), '', null, '初始化船员证书');
+
+-- ----------------------------
+-- 3-5、船舶证照附件表
+-- ----------------------------
+drop table if exists sea_vessel_license;
+create table sea_vessel_license (
+  license_id         bigint(20)      not null auto_increment    comment '证照ID',
+  tenant_id          bigint(20)      not null                   comment '租户ID',
+  vessel_id          bigint(20)      not null                   comment '船舶ID',
+  license_type       varchar(32)     not null                   comment '证照类型',
+  license_no         varchar(64)     not null                   comment '证照编号',
+  issue_date         date            default null               comment '签发日期',
+  expire_date        date            default null               comment '到期日期',
+  issuing_authority  varchar(100)    default ''                 comment '签发机构',
+  attachment_name    varchar(200)    default ''                 comment '附件名称',
+  attachment_url     varchar(500)    default ''                 comment '附件地址',
+  license_status     varchar(32)     default 'valid'            comment '证照状态',
+  create_by          varchar(64)     default ''                 comment '创建者',
+  create_time        datetime                                   comment '创建时间',
+  update_by          varchar(64)     default ''                 comment '更新者',
+  update_time        datetime                                   comment '更新时间',
+  remark             varchar(500)    default null               comment '备注',
+  primary key (license_id),
+  unique key uk_sea_vessel_license_no (license_no),
+  key idx_sea_vessel_license_tenant (tenant_id),
+  key idx_sea_vessel_license_vessel (vessel_id)
+) engine=innodb auto_increment=100 comment = '船舶证照附件表';
+
+insert into sea_vessel_license values(1, 1, 1, 'operation', 'DLSEA-LICENSE-001', '2026-01-01', '2028-12-31', '大连海事示范机构', '示范营运证.pdf', '', 'valid', 'admin', sysdate(), '', null, '初始化船舶证照');
+
 
 -- ----------------------------
 -- 4、角色信息表
@@ -232,6 +319,9 @@ insert into sys_menu values('113',  '缓存监控', '2',   '5', 'cache',      'm
 insert into sys_menu values('114',  '缓存列表', '2',   '6', 'cacheList',  'monitor/cache/list',       '', '', 1, 0, 'C', '0', '0', 'monitor:cache:list',      'redis-list',    'admin', sysdate(), '', null, '缓存列表菜单');
 insert into sys_menu values('300',  '租户管理', '3',   '1', 'tenant',     'business/tenant/index',    '', '', 1, 0, 'C', '0', '0', 'business:tenant:list',   'peoples',       'admin', sysdate(), '', null, '租户管理菜单');
 insert into sys_menu values('301',  '船舶管理', '3',   '2', 'vessel',     'business/vessel/index',    '', '', 1, 0, 'C', '0', '0', 'business:vessel:list',   'component',     'admin', sysdate(), '', null, '船舶管理菜单');
+insert into sys_menu values('302',  '船员管理', '3',   '3', 'crew',       'business/crew/index',      '', '', 1, 0, 'C', '0', '0', 'business:crew:list',     'user',          'admin', sysdate(), '', null, '船员管理菜单');
+insert into sys_menu values('303',  '船员证书', '3',   '4', 'crewCertificate', 'business/crewCertificate/index', '', '', 1, 0, 'C', '0', '0', 'business:crewCertificate:list', 'documentation', 'admin', sysdate(), '', null, '船员证书菜单');
+insert into sys_menu values('304',  '船舶证照', '3',   '5', 'vesselLicense',   'business/vesselLicense/index',   '', '', 1, 0, 'C', '0', '0', 'business:vesselLicense:list',   'form',          'admin', sysdate(), '', null, '船舶证照菜单');
 -- 三级菜单
 insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', '', 1, 0, 'C', '0', '0', 'monitor:operlog:list',    'form',          'admin', sysdate(), '', null, '操作日志菜单');
 insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor',    'admin', sysdate(), '', null, '登录日志菜单');
@@ -310,6 +400,27 @@ insert into sys_menu values('1112', '船舶修改', '301', '3', '#', '', '', '',
 insert into sys_menu values('1113', '船舶删除', '301', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vessel:remove',      '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1114', '船舶导出', '301', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vessel:export',      '#', 'admin', sysdate(), '', null, '');
 
+-- 船员管理按钮
+insert into sys_menu values('1120', '船员查询', '302', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crew:query',          '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1121', '船员新增', '302', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crew:add',            '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1122', '船员修改', '302', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crew:edit',           '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1123', '船员删除', '302', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crew:remove',         '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1124', '船员导出', '302', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crew:export',         '#', 'admin', sysdate(), '', null, '');
+
+-- 船员证书按钮
+insert into sys_menu values('1130', '证书查询', '303', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crewCertificate:query', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1131', '证书新增', '303', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crewCertificate:add',   '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1132', '证书修改', '303', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crewCertificate:edit',  '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1133', '证书删除', '303', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crewCertificate:remove','#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1134', '证书导出', '303', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:crewCertificate:export','#', 'admin', sysdate(), '', null, '');
+
+-- 船舶证照按钮
+insert into sys_menu values('1140', '证照查询', '304', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vesselLicense:query',  '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1141', '证照新增', '304', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vesselLicense:add',    '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1142', '证照修改', '304', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vesselLicense:edit',   '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1143', '证照删除', '304', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vesselLicense:remove', '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1144', '证照导出', '304', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'business:vesselLicense:export', '#', 'admin', sysdate(), '', null, '');
+
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -359,6 +470,9 @@ insert into sys_role_menu values ('2', '114');
 insert into sys_role_menu values ('2', '3');
 insert into sys_role_menu values ('2', '300');
 insert into sys_role_menu values ('2', '301');
+insert into sys_role_menu values ('2', '302');
+insert into sys_role_menu values ('2', '303');
+insert into sys_role_menu values ('2', '304');
 insert into sys_role_menu values ('2', '500');
 insert into sys_role_menu values ('2', '501');
 insert into sys_role_menu values ('2', '1000');
@@ -420,6 +534,21 @@ insert into sys_role_menu values ('2', '1111');
 insert into sys_role_menu values ('2', '1112');
 insert into sys_role_menu values ('2', '1113');
 insert into sys_role_menu values ('2', '1114');
+insert into sys_role_menu values ('2', '1120');
+insert into sys_role_menu values ('2', '1121');
+insert into sys_role_menu values ('2', '1122');
+insert into sys_role_menu values ('2', '1123');
+insert into sys_role_menu values ('2', '1124');
+insert into sys_role_menu values ('2', '1130');
+insert into sys_role_menu values ('2', '1131');
+insert into sys_role_menu values ('2', '1132');
+insert into sys_role_menu values ('2', '1133');
+insert into sys_role_menu values ('2', '1134');
+insert into sys_role_menu values ('2', '1140');
+insert into sys_role_menu values ('2', '1141');
+insert into sys_role_menu values ('2', '1142');
+insert into sys_role_menu values ('2', '1143');
+insert into sys_role_menu values ('2', '1144');
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
